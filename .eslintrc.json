@@ -1,0 +1,17 @@
+{
+  "extends": "google",
+  "rules": {
+    "padded-blocks": [1, "never"],
+    "require-jsdoc": ["error", {
+      "require": {
+        "FunctionDeclaration": false,
+        "MethodDefinition": false,
+        "ClassDeclaration": false,
+        "ArrowFunctionExpression": false
+      }
+    }]
+  },
+  "parserOptions": {
+    "ecmaVersion": 6
+  }
+}

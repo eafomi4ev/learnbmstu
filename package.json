@@ -1,0 +1,25 @@
+{
+  "name": "file-server",
+  "version": "0.0.1",
+  "description": "Сервер для ИС Тестирование знаний",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Егор Фомичев",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.4.0",
+    "eslint": "^3.19.0",
+    "eslint-config-google": "^0.7.1"
+  },
+  "dependencies": {
+    "config": "^1.26.1",
+    "mime": "^1.3.4"
+  }
+}
