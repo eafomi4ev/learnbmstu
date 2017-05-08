@@ -35,7 +35,7 @@ var db = pgp(connectionString);
 // getSubjectLectures();
 
 function getSubjectsAndLectures() {
-  db.any('SELECT s.id as subject_id, s.name as Subject_Name, l.id as lecture_id, l.name as Lecture_Name FROM subjects s\nJOIN lectures l ON s.id = l.subjectid;').then(function (data) {
+  db.any('\n    SELECT s.id as subject_id, s.name as subject_name, \n           l.id as lecture_id, l.name as lecture_name \n    FROM subjects s\n    JOIN lectures l ON s.id = l.subjectid;').then(function (data) {
     // res.status(200).json({
     //   status: 'success',
     //   data: data,
@@ -44,8 +44,7 @@ function getSubjectsAndLectures() {
     // console.log(JSON.stringify(data, null, 2));
 
     var subjects = makeTreeViewSubjectsAndLectures(data);
-    console.log('aaaaaaaaaad');
-    console.log(JSON.stringify(subjects, null, 2));
+    // console.log(JSON.stringify(subjects, null, 2));
   }).catch(function (err) {
     console.error(err);
   });
@@ -54,7 +53,6 @@ function getSubjectsAndLectures() {
 getSubjectsAndLectures();
 
 function makeTreeViewSubjectsAndLectures(data) {
-
   var currentSubjectId = -1;
   if (data.length !== 0) {
     currentSubjectId = data[0].subject_id;
@@ -67,35 +65,23 @@ function makeTreeViewSubjectsAndLectures(data) {
 
   for (var i in data) {
     var lecture = {};
-    if (currentSubjectId === data[i].subject_id) {
-      subject.subject_id = data[i].subject_id;
-      subject.subject_name = data[i].subject_name;
-
-      lecture = {
-        lecture_id: data[i].lecture_id,
-        lecture_name: data[i].lecture_name
-      };
-
-      subject.lectures.push(lecture);
-    } else {
+    if (currentSubjectId !== data[i].subject_id) {
       subjects.push(subject);
 
       subject = getEmptySubject();
-
-      subject.subject_id = data[i].subject_id;
-      subject.subject_name = data[i].subject_name;
-
-      subject.lectures.length = 0;
-      lecture = {
-        lecture_id: data[i].lecture_id,
-        lecture_name: data[i].lecture_name
-      };
-      subject.lectures.push(lecture);
       currentSubjectId = data[i].subject_id;
     }
+    subject.subject_id = data[i].subject_id;
+    subject.subject_name = data[i].subject_name;
+
+    lecture = {
+      lecture_id: data[i].lecture_id,
+      lecture_name: data[i].lecture_name
+    };
+
+    subject.lectures.push(lecture);
   }
   subjects.push(subject);
-  // console.log(JSON.stringify(subjects, null, 2));
   return subjects;
 }
 
