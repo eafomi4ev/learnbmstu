@@ -1,0 +1,47 @@
+swagger: '2.0'
+info:
+  title: Learn BMSTU
+  description: API documentation
+  version: 1.0.0
+host: 'localhost:3000'
+basePath: /
+produces:
+  - application/json
+schemes:
+  - http
+  - https
+paths:
+  /:
+    get:
+      summary: Returns a list of subjects and lectures.
+      description: 'Consist id and name of subjects, id and name lectures of each subject'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                subject_id:
+                  type: integer
+                  example: 2
+                subject_name:
+                  type: string
+                  example: Нейронные сети
+                lectures:
+                  type: array
+                  items:
+                    $ref: '#/definitions/Lectures'
+definitions:
+  Lectures:
+    type: object
+    properties:
+      lecture_id:
+        type: integer
+        example: 1
+      name:
+        type: string
+        example: Введение
