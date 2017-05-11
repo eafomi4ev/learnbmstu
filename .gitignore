@@ -2,3 +2,6 @@
 files/
 node_modules/
 RestAPI.txt
+/public/lectures/*
+swagger_example.yaml
+dist/

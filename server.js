@@ -6,38 +6,42 @@ const path = require('path');
 const fs = require('fs');
 const mime = require('mime');
 const config = require('config');
+const router = require('./router');
 
 module.exports = http.createServer((req, res) => {
 
   let pathname = decodeURI(url.parse(req.url).pathname);
-  let filename = pathname.slice(1); // /file.ext -> file.ext
 
-  if (filename.includes('/') || filename.includes('..')) {
-    res.statusCode = 400;
-    res.end('Nested paths are not allowed');
-    return;
-  }
+  router.route(pathname);
 
-  if (req.method === 'GET') {
-    if (pathname === '/') {
-      sendFile(config.get('publicRoot') + '/index.html', res);
-    } else {
-      let filepath = path.join(config.get('filesRoot'), filename);
-      sendFile(filepath, res);
-    }
-  }
-
-  if (req.method === 'POST') {
-    if (!filename) {
-      res.statusCode = 404;
-      res.end('File not found');
-    }
-    receiveFile(path.join(config.get('filesRoot'), filename), req, res);
-  }
-
-  if (req.method === 'DELETE') {
-    deleteFile(path.join(config.get('filesRoot'), filename), req, res);
-  }
+  // let filename = pathname.slice(1); // /file.ext -> file.ext
+  //
+  // if (filename.includes('/') || filename.includes('..')) {
+  //   res.statusCode = 400;
+  //   res.end('Nested paths are not allowed');
+  //   return;
+  // }
+  //
+  // if (req.method === 'GET') {
+  //   if (pathname === '/') {
+  //     sendFile(config.get('publicRoot') + '/index.html', res);
+  //   } else {
+  //     let filepath = path.join(config.get('filesRoot'), filename);
+  //     sendFile(filepath, res);
+  //   }
+  // }
+  //
+  // if (req.method === 'POST') {
+  //   if (!filename) {
+  //     res.statusCode = 404;
+  //     res.end('File not found');
+  //   }
+  //   receiveFile(path.join(config.get('filesRoot'), filename), req, res);
+  // }
+  //
+  // if (req.method === 'DELETE') {
+  //   deleteFile(path.join(config.get('filesRoot'), filename), req, res);
+  // }
 
 });
 

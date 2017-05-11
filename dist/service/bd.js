@@ -11,31 +11,10 @@ var pgp = require('pg-promise')(options);
 var connectionString = 'postgres://localhost:5432/testing';
 var db = pgp(connectionString);
 
-// function getSubjectLectures() {
-//   db.any(`SELECT question_text, a2.answer_text correct_Answer, a.answer_text answer FROM questions q
-// JOIN questions_answers qa ON q.id = qa.questionid
-// JOIN answers a ON a.id = qa.answerid
-// JOIN answers a2 on q.answerid = a2.id;`)
-//   .then(function(data) {
-//     // res.status(200).json({
-//     //   status: 'success',
-//     //   data: data,
-//     //   message: 'Retrieved ALL puppies',
-//     // });
-//     console.log(JSON.stringify(data, null, 2));
-//
-//     let subjects = {}
-//
-//
-//   }).catch(function(err) {
-//     console.error(err);
-//   });
-// }
-//
-// getSubjectLectures();
+var GET_SUBJECTS_AND_LECTURES = 'SELECT s.id as subject_id, s.name as Subject_Name, \nl.id as lecture_id, l.name as lecture_name, l.path as lecture_path \nFROM subjects s\nJOIN lectures l ON s.id = l.subjectid;';
 
 function getSubjectsAndLectures() {
-  db.any('\n    SELECT s.id as subject_id, s.name as subject_name, \n           l.id as lecture_id, l.name as lecture_name \n    FROM subjects s\n    JOIN lectures l ON s.id = l.subjectid;').then(function (data) {
+  db.any(GET_SUBJECTS_AND_LECTURES).then(function(data) {
     // res.status(200).json({
     //   status: 'success',
     //   data: data,
@@ -44,7 +23,7 @@ function getSubjectsAndLectures() {
     // console.log(JSON.stringify(data, null, 2));
 
     var subjects = makeTreeViewSubjectsAndLectures(data);
-    // console.log(JSON.stringify(subjects, null, 2));
+    console.log(JSON.stringify(subjects, null, 2));
   }).catch(function (err) {
     console.error(err);
   });
@@ -76,7 +55,8 @@ function makeTreeViewSubjectsAndLectures(data) {
 
     lecture = {
       lecture_id: data[i].lecture_id,
-      lecture_name: data[i].lecture_name
+      lecture_name: data[i].lecture_name,
+      lecture_path: data[i].lecture_path
     };
 
     subject.lectures.push(lecture);
@@ -103,4 +83,4 @@ function getEmptySubject() {
 // query.on('end', () => {
 //     client.end();
 // });
-//# sourceMappingURL=bd.js.map
+//# sourceMappingURL=db.js.map

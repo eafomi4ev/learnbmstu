@@ -9,7 +9,8 @@
         "ClassDeclaration": false,
         "ArrowFunctionExpression": false
       }
-    }]
+    }],
+    "max-len": ["error", 90]
   },
   "parserOptions": {
     "ecmaVersion": 6

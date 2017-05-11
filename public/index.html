@@ -20,74 +20,105 @@
     <input type="submit" value="Загрузить">
 </form>
 
+<div id="main">
+    <ul>
+        <li v-for="subject in subjects">
+            {{ subject.subject_name }}
+            <ul>
+                <li v-for="lecture in subject.lectures">{{ lecture }}</li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+
+<!--<script src="/js/vendor/vue.js"></script>-->
+<!--<script src="/js/vuerender.js"></script>-->
+<script src="/js/bundle.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.0/vue.js"></script>-->
+
 <script>
   'use strict';
 
-//  document.forms.upload.onsubmit = function() {
-//    const file = this.elements.file.files[0];
+
+//    document.forms.upload.onsubmit = function() {
+//      const file = this.elements.file.files[0];
 //
-//    if (!file) return false;
+//      if (!file) return false;
 //
-//    const xhr = new XMLHttpRequest();
-//    xhr.onload = xhr.onerror = function() {
-//      if (this.status == 200) {
-//        alert('success');
-//      } else {
-//        alert('error ' + this.status + ' ' + this.responseText);
-//      }
+//      const xhr = new XMLHttpRequest();
+//      xhr.onload = xhr.onerror = function() {
+//        if (this.status == 200) {
+//          alert('success');
+//        } else {
+//          alert('error ' + this.status + ' ' + this.responseText);
+//        }
+//      };
+//
+//      xhr.open('POST', `/${file.name}`, true);
+//      xhr.send(file);
+//
+//      return false;
 //    };
-//
-//    xhr.open('POST', `/${file.name}`, true);
-//    xhr.send(file);
-//
-//    return false;
-//  };
 
-  document.onsubmit = function(event) {
-    event.preventDefault();
+    document.onsubmit = function(event) {
+      event.preventDefault();
 
-    const form = event.target;
-    if (!form.file.value) return;
+      const form = event.target;
+      if (!form.file.value) return;
 
-    //  /my/path/file.ext -> /file.ext
-    const fileUrl = '/' + form.file.value.replace(/.*[\\\/]/, '');
+      //  /my/path/file.ext -> /file.ext
+      const fileUrl = '/' + form.file.value.replace(/.*[\\\/]/, '');
 
-    const xhr = new XMLHttpRequest();
+      const xhr = new XMLHttpRequest();
 
-    xhr.onload = xhr.onerror = function() {
-      if (this.status == 200) {
-        alert('success');
-      } else {
-        alert('error ' + this.status + ' ' + this.responseText);
+      xhr.onload = xhr.onerror = function() {
+        if (this.status === 200) {
+          alert('success');
+        } else {
+          alert('error ' + this.status + ' ' + this.responseText);
+        }
+      };
+
+      switch (event.target.name) {
+        case 'upload':
+          xhr.open('POST', fileUrl, true);
+  //        xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+          xhr.send(form.file.files[0]);
+          break;
+
+        case 'delete':
+          xhr.open('DELETE', fileUrl, true);
+          xhr.send();
+          break;
+
+        case 'download':
+          xhr.open('GET', fileUrl, true);
+          xhr.send();
+          xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+              if (xhr.status === 200) {
+                alert(xhr.responseText);
+              }
+            }
+          };
+          break;
       }
+
     };
 
-    switch (event.target.name) {
-      case 'upload':
-        xhr.open('POST', fileUrl, true);
-//        xhr.setRequestHeader('Content-Type', 'multipart/form-data');
-        xhr.send(form.file.files[0]);
-        break;
-
-      case 'delete':
-        xhr.open('DELETE', fileUrl, true);
-        xhr.send();
-        break;
-
-      case 'download':
-        xhr.open('GET', fileUrl, true);
-        xhr.send();
-        xhr.onreadystatechange = function() {
-          if (xhr.readyState == 4) {
-            if(xhr.status == 200) {
-              alert(xhr.responseText);
-            }
-          }
-        };
-        break;
-    }
-
-  };
+//    document.onclick = function() {
+//      const xhr = new XMLHttpRequest();
+//      xhr.open('GET', '/subjectsandlectures', true);
+//      xhr.send();
+//      xhr.onreadystatechange = function() {
+//        if (xhr.readyState === 4) {
+//          if (xhr.status === 200) {
+//            console.log(JSON.parse(xhr.responseText));
+//          }
+//        }
+//      };
+//    };
 </script>
 
 </body>

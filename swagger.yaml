@@ -1,6 +1,6 @@
 swagger: '2.0'
 info:
-  title: Learn BMSTU
+  title: Learn
   description: API documentation
   version: 1.0.0
 host: 'localhost:3000'
@@ -13,35 +13,159 @@ schemes:
 paths:
   /:
     get:
-      summary: Returns a list of subjects and lectures.
-      description: 'Consist id and name of subjects, id and name lectures of each subject'
+      summary: Вовзращает список предметов и лекций.
+      description: 'Содержит список имен предметов и лекций, включая id предметов и лекций'
       produces:
         - application/json
       responses:
         '200':
           description: OK
           schema:
-            type: array
-            items:
-              type: object
-              properties:
-                subject_id:
-                  type: integer
-                  example: 2
-                subject_name:
-                  type: string
-                  example: Нейронные сети
+            example:
+              - subject_id: 1
+                subject_name: Нейронные сети
                 lectures:
-                  type: array
-                  items:
-                    $ref: '#/definitions/Lectures'
+                  - lecture_id: 1
+                    lecture_name: Введение
+                  - lecture_id: 2
+                    lecture_name: История развития нейронных сетей
+                  - lecture_id: 3
+                    lecture_name: Структура нейрона
+              - subject_id: 2
+                subject_name: ТС САУ
+                lectures:
+                  - lecture_id: 1
+                    lecture_name: Введение
+                  - lecture_id: 2
+                    lecture_name: История развития ТС САУ
+  /login:
+    post:
+      summary: Аутентификация пользователя
+      parameters:
+        - name: task
+          in: body
+          description: task object
+          required: true
+          schema:
+            $ref: '#/definitions/LoginUser'
+      description: Логин пользователя в системе.
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          description: Bad request. Поле login или password незаполнены.
+        '404':
+          description: Not found. Неправильный логин или пароль.
+  /register:
+    post:
+      summary: Регистрация нового пользователя
+      description: Данные для регистрации нового пользователя
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          required: true
+          name: user
+          description: Регистрация нового пользователя
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+        '400':
+          description: Bad rquest. Не заполнены необходимые поля.
+        '409':
+          description: Conflict. Пользователь с таким login уже зарегистрирован.
+  /subject:
+    post:
+      summary: Создание нового предмета
+      description: ''
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Test'
 definitions:
+  LoginUser:
+    description: Логин и пароль пользователя при аутентификации.
+    properties:
+      login:
+        type: string
+        description: Логин пользователя
+      password:
+        type: string
+        description: Пароль пользователя
+    required:
+      - login
+      - password
+  User:
+    type: object
+    description: Логин и пароль пользователя при аутентификации.
+    properties:
+      id:
+        type: integer
+        description: ID пользователя
+      name:
+        type: string
+        description: ФИО пользователя
+      login:
+        type: string
+        description: Логин пользователя
+      password:
+        type: string
+        description: Пароль пользователя
+      role:
+        type: string
+        description: Роль пользователя в системе
+        enum:
+          - student
+          - editor
+      group:
+        type: string
+        description: >-
+          Группа, в которой учится пользователь. Для администратора системы
+          значение группы = "staff".
   Lectures:
     type: object
     properties:
-      lecture_id:
+      id:
         type: integer
-        example: 1
       name:
         type: string
-        example: Введение
+        description: Назвение лекции
+      path:
+        type: string
+        description: Путь к pdf-файлу лекции
+      subjectid:
+        type: integer
+        description: 'ID предмета, к которому относится данная лекция'
+  Subject:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: ID предмета
+      name:
+        type: string
+        description: Название предмета
+  SubjectWithLectures:
+    type: object
+    properties:
+      subject:
+        $ref: '#/definitions/Subject'
+      lectures:
+        type: array
+        items:
+          $ref: '#/definitions/Lectures'
+  Test:
+    type: array
+    items:
+      $ref: '#/definitions/SubjectWithLectures'
