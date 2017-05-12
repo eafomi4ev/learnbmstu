@@ -1,0 +1,16 @@
+{
+	"subject_id": "-1",
+	"subject_name": "Механика полета3",
+	"lectures": [
+		{
+			"lecture_id": -1,
+			"lecture_name": "Введение",
+			"lecture_path": ""
+		},
+		{
+			"lecture_id": -1,
+			"lecture_name": "Восстание машин",
+			"lecture_path": ""
+		}
+	]
+}

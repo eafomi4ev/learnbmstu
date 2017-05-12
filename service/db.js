@@ -20,11 +20,6 @@ class DataBaseService {
 		// let db = pgp(connectionString);
 
 		// Запросы к БД
-		this.GET_SUBJECTS_AND_LECTURES = `
-      SELECT s.id as subject_id, s.name as Subject_Name,
-        l.id as lecture_id, l.name as lecture_name, l.path as lecture_path
-      FROM subjects s
-      JOIN lectures l ON s.id = l.subjectid;`;
 
 		this.GET_USER_BY_ID = `
       SELECT
@@ -39,6 +34,16 @@ class DataBaseService {
       JOIN groups as g ON u.groupid = g.id
       WHERE u.id = $1`;
 
+		this.INSERT_USER = `INSERT INTO users
+      (id, name, roleid, groupid, login, password) VALUES
+      (DEFAULT , $1, $2, $3, $4, $5) RETURNING id;`
+
+		this.GET_SUBJECTS_AND_LECTURES = `
+      SELECT s.id as subject_id, s.name as Subject_Name,
+        l.id as lecture_id, l.name as lecture_name, l.path as lecture_path
+      FROM subjects s
+      JOIN lectures l ON s.id = l.subjectid;`;
+
 		this.INSERT_SUBJECT = `INSERT INTO subjects VALUES (DEFAULT, $1) RETURNING id;`;
 
 		// Этот запрос дособирается в месте вызова
@@ -48,6 +53,32 @@ class DataBaseService {
 
 		this.UPDATE_SUBJECT = `UPDATE subjects SET name = $1 WHERE name = $2;`;
 	}
+
+	/**
+	 * [insertUser description]
+	 * @param  {object} response node response
+	 * @param  {object} user user data
+	 */
+	insertUser(response, user) {
+		this.db.one(this.INSERT_USER,
+          [user.name, user.roleid, user.groupid, user.login, user.password])
+			.then((user) => {
+				response.status(200).json({
+					id: user.id,
+				});
+				response.end();
+			})
+			.catch((err) => {
+				if (err.code === '23505') {
+          response.status(409).json({
+            message: 'Пользователь с таким login уже существует.',
+          });
+				}
+				console.error(err);
+				response.status(500).end();
+			});
+	}
+
 	/**
 	 * Извлечение всех предметов и лекций по предметам
 	 * @param  {object} response - node response
@@ -57,7 +88,7 @@ class DataBaseService {
 			.then(function(data) {
 				let subjects = _makeTreeViewSubjectsAndLectures(data);
 				response.status(200).json({
-					subjects: subjects,
+					'subjects': subjects,
 				});
 				response.end();
 				// return subjects;
@@ -71,12 +102,16 @@ class DataBaseService {
 
 	/**
 	 * Данные о юзере по его ID
+	 * @param {object} response - node response
 	 * @param {integer} userID
 	 */
-	getUserById(userID) {
-		this.db.any(this.GET_USER_BY_ID, [userID]).then(function(data) {
-			console.log(JSON.stringify(data, null, 2));
-			return (data);
+	getUserById(response, userID) {
+		this.db.one(this.GET_USER_BY_ID, [userID]).then((user) => {
+			// console.log(JSON.stringify(data, null, 2));
+			response.status(200).json({
+				'user': user,
+			});
+			response.end();
 		}).catch(function(err) {
 			console.error(err);
 		});
@@ -84,32 +119,43 @@ class DataBaseService {
 
 	/**
 	 * Добавить в БД предмет и его лекции
-	 * @param {string} dataString
+	 * @param  {object} response [description]
+	 * @param  {object} subject  [description]
 	 */
-	set insertSubjectAndLectures(dataString) {
-		let subject = JSON.parse(dataString);
+	insertSubjectAndLectures(response, subject) {
+		// let subject = JSON.parse(dataString);
+		// console.log(JSON.stringify(subject));
 		this.db.one(this.INSERT_SUBJECT, [subject.subject_name]) // 1 or more return
 			.then((data) => {
-				console.log(data.id); // print new subject id;
+				// console.log(data.id); // print new subject id;
+				// Конструирование запроса на вставку всех лекций
+				let query = this.INSERT_LECTURES;
 				for (let i = 0; i < subject.lectures.length; i++) {
-					INSERT_LECTURES += ` (DEFAULT,
+					query += ` (DEFAULT,
             '${subject.lectures[i].lecture_name}',
-            ${subject.lectures[i].lecture_path === null ?
+            ${subject.lectures[i].lecture_path === '' ?
               null : `'${subject.lectures[i].lecture_path}'`},
             ${data.id}),`;
 				}
-				this.INSERT_LECTURES = this.INSERT_LECTURES.substring(
-					0, INSERT_LECTURES.length - 1);
-				this.INSERT_LECTURES += ` RETURNING id;`;
-				console.log(INSERT_LECTURES);
-				this.db.many(this.INSERT_LECTURES).then((data) => {
-					console.log('Отработало норм');
-				}).catch((error) => {
-					console.error(error);
-					console.log('Не удалось вставить лекции');
-					this.db.none(this.DELETE_SUBJECT, [subject.subject_name]);
-				});
-			}).catch((error) => {
+				query = query.substring(0, query.length - 1);
+				query += ` RETURNING id;`;
+				// console.log(query);
+				this.db.many(query)
+					.then((data) => {
+						// console.log('Отработало норм');
+						response.status(200).json({
+							status: 'OK'
+						});
+						response.end();
+					})
+					.catch((error) => {
+						console.error(error);
+						console.log('Не удалось вставить лекции');
+						this.db.none(this.DELETE_SUBJECT, [subject.subject_name]);
+					});
+			})
+			.catch((error) => {
+				console.log('Не удалось вставить предмет');
 				console.log('ERROR:', error); // print error;
 			});
 	}
@@ -141,43 +187,43 @@ exports.DataBaseService = DataBaseService;
  * @return {Array}
  */
 function _makeTreeViewSubjectsAndLectures(data) {
-  let currentSubjectId = -1;
-  if (data.length !== 0) {
-    currentSubjectId = data[0].subject_id;
-  } else {
-    return [];
-  }
+	let currentSubjectId = -1;
+	if (data.length !== 0) {
+		currentSubjectId = data[0].subject_id;
+	} else {
+		return [];
+	}
 
-  let subjects = [];
-  let subject = _getEmptySubject();
+	let subjects = [];
+	let subject = _getEmptySubject();
 
-  for (let i in data) {
-    let lecture = {};
-    if (currentSubjectId !== data[i].subject_id) {
-      subjects.push(subject);
+	for (let i in data) {
+		let lecture = {};
+		if (currentSubjectId !== data[i].subject_id) {
+			subjects.push(subject);
 
-      subject = _getEmptySubject();
-      currentSubjectId = data[i].subject_id;
-    }
-    subject.subject_id = data[i].subject_id;
-    subject.subject_name = data[i].subject_name;
+			subject = _getEmptySubject();
+			currentSubjectId = data[i].subject_id;
+		}
+		subject.subject_id = data[i].subject_id;
+		subject.subject_name = data[i].subject_name;
 
-    lecture = {
-      lecture_id: data[i].lecture_id,
-      lecture_name: data[i].lecture_name,
-      lecture_path: data[i].lecture_path,
-    };
+		lecture = {
+			lecture_id: data[i].lecture_id,
+			lecture_name: data[i].lecture_name,
+			lecture_path: data[i].lecture_path,
+		};
 
-    subject.lectures.push(lecture);
-  }
-  subjects.push(subject);
-  return subjects;
+		subject.lectures.push(lecture);
+	}
+	subjects.push(subject);
+	return subjects;
 };
 
 function _getEmptySubject() {
-  return {
-    subject_id: -1,
-    subject_name: '',
-    lectures: [],
-  };
+	return {
+		subject_id: -1,
+		subject_name: '',
+		lectures: [],
+	};
 }
