@@ -1,24 +1,21 @@
 // const server = require('./server');
-//
-//
-//
-// server.listen(3000, '127.0.0.1', () => console.log('http://127.0.0.1:3000/'));
-//
 
-
-let express = require("express");
-let requestHandlers = require("./requestHandlers");
+let express = require('express');
+let path = require('path');
 let fs = require('fs');
 let mime = require('mime');
+let dataBaseService = require('./service/db');
+
+let db = new dataBaseService.DataBaseService();
 
 let app = express();
 
-app.get("/", function(request, response) {
+app.get('/', function(request, response) {
 	sendFile('public/index.html', response);
 });
 
-app.get("/subjectsandlectures", function(request, response) {
-	requestHandlers.subjectsandlectures(request, response);
+app.get('/subjectsandlectures', function(request, response) {
+	db.getSubjectsAndLectures(response);
 });
 
 app.use(express.static(__dirname + '/public'));
@@ -27,9 +24,8 @@ app.listen(3000);
 
 /**
  * [sendFile description]
- * @param  {[type]} filepath [description]
- * @param  {[type]} res      [description]
- * @return {[type]}          [description]
+ * @param  {string} filepath [description]
+ * @param  {object} res      [description]
  */
 function sendFile(filepath, res) {
 	let fileStream = fs.createReadStream(filepath);
