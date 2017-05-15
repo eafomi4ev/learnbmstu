@@ -7,7 +7,6 @@
 
 <body>
 
-
 	<form name="upload" action='http://localhost:3000/subjectsandlectures/create' method='post' encType="multipart/form-data">
 		<span>Create subject and lectures</span><br>
 		<input type="text" name="subjectname"><br>
@@ -39,83 +38,7 @@
 		</ul>
 	</div>
 
-
-	<!--<script src="/js/vendor/vue.js"></script>-->
-	<!--<script src="/js/vuerender.js"></script>-->
-	
 	<script src="/js/bundle.js"></script>
-	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.0/vue.js"></script>-->
-
-	<!-- <script>
-		'use strict';
-
-
-		//    document.forms.upload.onsubmit = function() {
-		//      const file = this.elements.file.files[0];
-		//
-		//      if (!file) return false;
-		//
-		//      const xhr = new XMLHttpRequest();
-		//      xhr.onload = xhr.onerror = function() {
-		//        if (this.status == 200) {
-		//          alert('success');
-		//        } else {
-		//          alert('error ' + this.status + ' ' + this.responseText);
-		//        }
-		//      };
-		//
-		//      xhr.open('POST', `/${file.name}`, true);
-		//      xhr.send(file);
-		//
-		//      return false;
-		//    };
-
-		document.onsubmit = function(event) {
-			event.preventDefault();
-
-			const form = event.target;
-			if (!form.file.value) return;
-
-			//  /my/path/file.ext -> /file.ext
-			const fileUrl = '/' + form.file.value.replace(/.*[\\\/]/, '');
-
-			const xhr = new XMLHttpRequest();
-
-			xhr.onload = xhr.onerror = function() {
-				if (this.status === 200) {
-					// alert('success');
-				} else {
-					alert('error ' + this.status + ' ' + this.responseText);
-				}
-			};
-
-			switch (event.target.name) {
-				case 'upload':
-					xhr.open('POST', fileUrl, true);
-					//        xhr.setRequestHeader('Content-Type', 'multipart/form-data');
-					xhr.send(form.file.files[0]);
-					break;
-
-				case 'delete':
-					xhr.open('DELETE', fileUrl, true);
-					xhr.send();
-					break;
-
-				case 'download':
-					xhr.open('GET', fileUrl, true);
-					xhr.send();
-					xhr.onreadystatechange = function() {
-						if (xhr.readyState === 4) {
-							if (xhr.status === 200) {
-								alert(xhr.responseText);
-							}
-						}
-					};
-					break;
-			}
-		};
-	</script> -->
-
 </body>
 
 </html>

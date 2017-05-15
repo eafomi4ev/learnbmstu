@@ -1,37 +1,31 @@
-// const server = require('./server');
+'use strict';
 
-let express = require('express');
+const express = require('express');
 const fileUpload = require('express-fileupload');
-let path = require('path');
-let fs = require('fs');
-let mime = require('mime');
-let dataBaseService = require('./service/db');
-let bodyParser = require('body-parser');
-let config = require('config');
+const path = require('path');
+const bodyParser = require('body-parser');
 
-let db = new dataBaseService.DataBaseService();
+const app = express();
 
-let app = express();
-
-let lectures = require('./routers/lectures');
-let subjects = require('./routers/subjects');
-let users = require('./routers/users');
+const lectures = require('./routers/lectures');
+const subjects = require('./routers/subjects');
+const users = require('./routers/users');
+const tests = require('./routers/tests');
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-	extended: true,
-}));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(fileUpload());
-
-app.get('/', function(request, response) {
-	response.sendFile(__dirname + '/public/index.html');
-});
 // use statinc должен идти после кода app.get('/', ...)
 app.use(express.static(__dirname + '/public'));
+
+app.get('/', function(request, response) {
+	response.sendFile(path.join(__dirname, '/public/index.html'));
+});
 
 app.use('/lectures', lectures);
 app.use('/subjects', subjects);
 app.use('/users', users);
+app.use('/tests', tests);
 
 // Переделать, чтобы id доставался из сессии
 

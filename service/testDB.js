@@ -1,3 +1,5 @@
+'use strict';
+
 // import DataBaseService from './db';
 
 let dataBaseService = require('./db');
