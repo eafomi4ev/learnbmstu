@@ -3,7 +3,7 @@ let webpack = require('webpack');
 let path = require('path');
 
 module.exports = {
-	entry: './public/js/vuerender.js',
+	entry: './public/vuerender.js',
 	output: {
 		filename: './public/js/bundle.js',
 	},

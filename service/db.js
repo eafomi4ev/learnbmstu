@@ -108,10 +108,8 @@ class DataBaseService {
 	getUserById(response, userID) {
 		this.db.one(this.GET_USER_BY_ID, [userID]).then((user) => {
 			// console.log(JSON.stringify(data, null, 2));
-			response.status(200).json({
-				'user': user,
-			});
-			response.end();
+			response.status(200, {'Content-Type': 'application/json'});
+			response.end(JSON.stringify(user));
 		}).catch(function(err) {
 			console.error(err);
 		});
