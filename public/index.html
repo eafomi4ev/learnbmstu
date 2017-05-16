@@ -2,43 +2,16 @@
 <html>
 
 <head>
-	<meta charset="utf-8">
+	<meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
 </head>
 
 <body>
 
-	<form name="upload" action='http://localhost:3000/subjectsandlectures/create' method='post' encType="multipart/form-data">
-		<span>Create subject and lectures</span><br>
-		<input type="text" name="subjectname"><br>
-		<input type="text" name="file1name">
-		<input type="file" name="file1"><br>
-		<input type="text" name="file2name">
-		<input type="file" name="file2"><br>
-		<input type="submit" value="Загрузить">
-	</form><br>
+	<div id="main"></div>
 
-	<form name="delete">
-		<input type="text" name="file" placeholder="filename.ext">
-		<input type="submit" value="Удалить">
-	</form><br>
-
-	<form name="download">
-		<input type="text" name="file" placeholder="filename.ext">
-		<input type="submit" value="Загрузить">
-	</form><br>
-
-	<div id="main">
-		<ul>
-			<li v-for="subject in subjects">
-				{{ subject.subject_name }}
-				<ul>
-					<li v-for="lecture in subject.lectures">{{ lecture.lecture_name }}</li>
-				</ul>
-			</li>
-		</ul>
-	</div>
-
-	<script src="/js/bundle.js"></script>
 </body>
 
 </html>

@@ -18,4 +18,8 @@ router.post('/create', function(req, res) {
 	// создание лекций у предмета. id предмета содержится в теле запроса.
 });
 
+router.put('/:id/update', function(req, res) {
+	// Изменить лекцию
+});
+
 module.exports = router;

@@ -22,6 +22,7 @@ function getSubjectsAndLectures(response) {
 	db.any(GET_SUBJECTS_AND_LECTURES)
 		.then(function(data) {
 			let subjects = _makeTreeViewSubjectsAndLectures(data);
+			console.log(JSON.stringify(subjects));
 			response.status(200).json({
 				'subjects': subjects,
 			});
