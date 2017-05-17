@@ -1,12 +1,17 @@
+// import * as React from 'react';
+
 export function SubjectListItem(props) {
-	let lectures = props.lectures.map( (lecture, index) =>
-		<li key={index}>{lecture.lecture_name}</li>);
-	return(
-		<li>
-			{ props.subject_name }
-			<ul>
-				{lectures}
-			</ul>
-		</li>
-	);
+  // console.log(props);
+  let lectures = props.lectures.map((lecture, index) =>
+      <a href={lecture.lecture_path} key={index}>
+        <li>{lecture.lecture_name}</li>
+      </a>);
+  return (
+      <li>
+        { props.subject_name }
+        <ul>
+          {lectures}
+        </ul>
+      </li>
+  );
 }

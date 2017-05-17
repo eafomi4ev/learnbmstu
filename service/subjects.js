@@ -22,7 +22,7 @@ function getSubjectsAndLectures(response) {
 	db.any(GET_SUBJECTS_AND_LECTURES)
 		.then(function(data) {
 			let subjects = _makeTreeViewSubjectsAndLectures(data);
-			console.log(JSON.stringify(subjects));
+			// console.log(JSON.stringify(subjects));
 			response.status(200).json({
 				'subjects': subjects,
 			});
@@ -81,6 +81,18 @@ function _makeTreeViewSubjectsAndLectures(data) {
 		};
 	}
 };
+
+function insertSubject(subject, resolve, reject) {
+	db.one(INSERT_SUBJECT, [subject.subject_name]).then((data) => {
+		resolve(data.id);
+	}).catch((err) => {
+		reject(err);
+	});
+}
+
+function insertLectures(lectures, resolve, reject) {
+
+}
 
 /**
  * Добавить в БД предмет и его лекции
@@ -144,5 +156,7 @@ function updateSubjectName(subjectJSON, newSubjectName) {
 }
 
 exports.getSubjectsAndLectures = getSubjectsAndLectures;
+exports.insertSubject = insertSubject;
+exports.insertLectures = insertLectures;
 exports.insertSubjectAndLectures = insertSubjectAndLectures;
 exports.updateSubjectName = updateSubjectName;

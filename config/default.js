@@ -6,7 +6,7 @@ module.exports = {
   limitFileSize: 10e6,
   db: {
     connection: 'postgres://localhost:5432/',
-    name: 'testing',
+    name: 'newtesting',
     options: {
       // Initialization Options
       promiseLib: promise,

@@ -10,25 +10,35 @@ const session = require('express-session');
 
 const app = express();
 
+const index = require('./routers/index');
 const lectures = require('./routers/lectures');
 const subjects = require('./routers/subjects');
 const users = require('./routers/users');
 const tests = require('./routers/tests');
 
-app.use(function (req, res, next) { //middleware для настроки CORS запросов
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+app.use(function(req, res, next) { // middleware для настроки CORS запросов
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers',
+      'Origin, X-Requested-With, Content-Type, Accept');
 
   next();
 });
+
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(session({secret: 'Shh, its a secret!'}));
+app.use(session({
+  secret: 'Shh, its a secret!',
+  saveUninitialized: true,
+  resave: true,
+}));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(fileUpload());
+
+
 // use statinc должен идти после кода app.get('/', ...)
 // app.use(express.static(__dirname + '/public'));
 
+// Vue
 // app.set('views', __dirname + '/views');
 // app.set('vue', {
 //     // ComponentsDir is optional if you are storing your components in a
@@ -43,19 +53,7 @@ app.use(fileUpload());
 // app.engine('vue', expressVue);
 // app.set('view engine', 'vue');
 
-
-app.get('/', function(req, res) {
-	res.sendFile(path.join(__dirname, '/dist/index.html'));
-
-	// if(req.session.page_views) {
-  //     req.session.page_views++;
-  //     res.send('You visited this page ' + req.session.page_views + ' times');
-  //  }else{
-  //     req.session.page_views = 1;
-  //     res.send('Welcome to this page for the first time!');
-  //  }
-});
-
+app.use('/', index);
 app.use('/lectures', lectures);
 app.use('/subjects', subjects);
 app.use('/users', users);

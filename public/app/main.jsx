@@ -1,8 +1,11 @@
-import HelloComponent from './components/hello';
-import SubjectList from './components/subjectlist';
+// import HelloComponent from './components/hello';
+// import SubjectsList from './components/SubjectsList';
+import App from './components/App';
+import LoginForm from './components/LoginForm';
 
-let app = document.getElementById('main');
+let main = document.getElementById('main');
 
-ReactDOM.render(<SubjectList />, app);
+ReactDOM.render(<App />, main);
+// ReactDOM.render(<App />, main);
 
 // ReactDOM.render(<HelloComponent title="AAAA"/>, app);

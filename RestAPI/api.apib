@@ -1,0 +1,111 @@
+FORMAT: 1A
+HOST: http://localhost:3000
+
+# LernBMSTU
+
+Система тестирования знаний
+
+# Предметы и лекции [/subject]
+
+## Получить все предметы и их лекции [GET]
+
+  + Response 200 (application/json)
+    + Attributes
+      - subjects (array[Subject])
+
+  + Response 404 (application/json)
+
+
+## Создать новый предмет с лекциями [POST]
+  Создание нового предмета с лекциями
+
+  + Request (application/json)
+    + Attributes
+      - subject_id: `-1` (number)
+      - subject_name: `Нейронные сети` (string)
+      - lectures (array[LecturesOnCreate]))
+
+  + Response 200
+
+  + Response 400 (application/json)
+    + Attributes
+      - message: `Неправильная структура json`
+
+  + Response 401 (application/json)
+
+    + Attributes
+      - message: `Нет прав доступа`
+
+# Пользователь [/users]
+
+## Аутентификация пользователя [POST /users/login]
+  Аутентифицировать пользователя
+
+  + Request (application/json)
+    + Attributes
+      - login: `jir2000` (string)
+      - password: `qwerty123` (string)
+
+  + Response 200 (application/json)
+    + Attributes
+      - id: `1` (number)
+      - name: `Жирков Юрий Леонидович` (string),
+      - login: `jir2000` (string),
+      - roleid: 2 (number),
+      - rolename: `student` (string),
+      - groupid: 1 (number),
+      - groupname: `ИУ1-123` (string)
+
+  + Response 400 (application/json)
+    + Attributes
+      - message: `Не все поля заполнены.` (string)
+
+  + Response 404 (application/json)
+    + Attributes
+      - message: `Неправильный логин или пароль` (string)
+
+## Регистрация пользователя [POST /users/register]
+  Создание учетной записи нового пользователя
+
+  + Request (application/json)
+    + Attributes (UserRegisterData)
+
+  + Response 200 (application/json)
+    + Attributes (User)
+
+  + Response 400 (application/json)
+    + Attributes
+      - message: `Не все поля заполнены.` (string)
+
+
+# Data Structures
+
+## Lectures (object)
+- lectures_id: `1` (number) - ID лекции
+- lecture_name: `Введение` (string) - Название предмета
+- lecture_path: `/public/lec1.pdf` (string) - Путь к pdf файлу лекции
+
+## LecturesOnCreate (object)
+- lectures_id: `-1` (number) - ID лекции
+- lecture_name: `Введение` (string) - Название предмета
+- lecture_path: `` (string, nullable) - Путь к pdf файлу лекции
+
+## Subject (object)
+- subject_id: `1` (number) - ID предмета
+- subject_name: `Нейронные сети` (string) - Название предмета
+- lectures (array[Lectures]))
+
+#UserRegisterData (object)
+- name: `Жирков Юрий Леонидович` (string)
+- login: `jir2000` (string)
+- password: `qwerty123` (string)
+- group: `ИУ1-123` (string)
+
+#User (object)
+- id: `1` (number)
+- name: `Жирков Юрий Леонидович` (string),
+- login: `jir2000` (string),
+- roleid: 2 (number),
+- rolename: `student` (string),
+- groupid: 1 (number),
+- groupname: `ИУ1-123` (string)

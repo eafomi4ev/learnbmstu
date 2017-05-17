@@ -1,7 +1,9 @@
 import axios from 'axios';
 import {SubjectListItem} from './subjectlistitem';
 
-export default class SubjectList extends React.Component {
+import '../../css/sidebar';
+
+export default class SubjectsList extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -20,8 +22,12 @@ export default class SubjectList extends React.Component {
 		let subjects = this.state.subjects.map((subject, index) =>
 			<SubjectListItem {...subject} key={index}/>);
 		return (
-			<div>
-				<ul>{subjects}</ul>
+			<div class="sidebar">
+				<ul>
+          {subjects}
+          <a href="/testing"><li>Тестирование</li></a>
+        </ul>
+
 			</div>
 		);
 	};
