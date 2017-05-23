@@ -2,6 +2,7 @@
 
 const db = require('../instances/db');
 const eventEmit = require('../instances/eventEmitter');
+const lecturesServise = require('../service/lectures');
 
 const eventEmitter = eventEmit.eventEmitter;
 
@@ -105,11 +106,17 @@ exports.updateSubjectName = updateSubjectName;
 // console.log(eventEmitter);
 
 eventEmitter.addListener('lecturesUploaded', (req, res, subject, lecture) => {
-  console.log('Lectures was uploaded', req, res, subject, lecture);
   insertSubject(subject, (subjectId) => {
-    res.status(200).json({id: subjectId});
+    lecture.subject_id = subjectId;
+    lecturesServise.insertLectures([lecture], ()=> {
+      console.log('Лекция добавлена в БД');
+      }, (err) => {
+      console.log(err);
+    });
+    res.status(200);
     res.end();
   }, (err) => {
     console.log(err);
   });
+
 });
