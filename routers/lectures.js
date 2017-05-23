@@ -30,7 +30,7 @@ router.post('/upload', function(req, res) {
         `${req.body['subjectName']}`, `${newFileName}`);
     let lecture = {
       lecture_name: req.body[fileName],
-      lecture_path: filePath,
+      lecture_path: filePath.substr(filePath.indexOf('/public')),
     };
     let subject = {
       subject_name: req.body['subjectName'],

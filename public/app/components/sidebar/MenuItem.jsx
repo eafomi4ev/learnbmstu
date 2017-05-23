@@ -6,7 +6,7 @@ import {Link} from 'react-router';
 
 export default function MenuItem(props) {
   let lectures = props.lectures.map((lecture, index) =>
-      <Link to={`/${props.subject_name}/lectures/${lecture.lecture_id}`} key={index}
+      <Link to={`${lecture.lecture_path}`} key={index}
             name={lecture.lecture_name}>
         <li>{lecture.lecture_name}</li>
       </Link>);

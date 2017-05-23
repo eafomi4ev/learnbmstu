@@ -24,6 +24,7 @@ app.use(function(req, res, next) { // middleware для настроки CORS з
   next();
 });
 
+
 app.use(fileUpload());
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -33,11 +34,11 @@ app.use(session({
   resave: true,
 }));
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static(__dirname + '/dist'));
-
+// app.use(express.static(__dirname + '/dist'));
 // use statinc должен идти после кода app.get('/', ...)
-// app.use(express.static(__dirname + '/public'));
-
+app.use(express.static(path.join(__dirname + 'public')));
+// app.use(express.static('public'));
+app.use(express.static(path.join(__dirname + 'dist')));
 
 app.use('/', index);
 app.use('/lectures', lectures);
@@ -50,7 +51,6 @@ app.use('/upload', function(req, res) {
 app.get('/app.js', (req, res) => {
   res.sendFile(path.join(__dirname, '/dist/app.js'));
 });
-
 
 //
 // app.use(function(err, req, res, next) {

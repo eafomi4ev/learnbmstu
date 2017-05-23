@@ -40,7 +40,7 @@ ReactDOM.render(
         <CookiesProvider>
           <Route path="/" component={Header}>
             <IndexRoute component={SubjectsList}/>
-            <Route path='/:subject/lectures/:id' component={SubjectsList}>
+            <Route path='/public/lectures/:subjectName/:lectureName' component={SubjectsList}>
               <IndexRoute component={Lecture}/>
             </Route>
             <Route path="/login" component={LoginPage}/>

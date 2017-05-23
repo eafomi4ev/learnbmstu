@@ -4,12 +4,14 @@ export default class Lecture extends React.Component {
   }
 
   render() {
+    let pathToLecture = `http://localhost:3000/public/lectures/${this.props.params.subjectName}/${this.props.params.lectureName}`;
     return (
         <div>
-          <div>{this.props.params.subject}: {this.props.params.lecture}
+          <div>{this.props.params.subjectName}: {this.props.params.lectureName.substring(
+              0, this.props.params.lectureName.length - 4)}
             <br/>
             <embed
-                src="http://www.tsu.ru/upload/medialibrary/1ae/gost_2.114_95.pdf"
+                src={pathToLecture}
                 width="850" height="600"/>
           </div>
         </div>
