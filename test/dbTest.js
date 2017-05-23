@@ -1,4 +1,4 @@
-let db = require('../service/db');
+let db = require('../instances/db');
 
 beforeEach(function() {
 	this.user = [{

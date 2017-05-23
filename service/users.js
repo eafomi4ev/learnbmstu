@@ -1,6 +1,6 @@
 'use strict';
 
-const db = require('./db');
+const db = require('../instances/db');
 
 const INSERT_USER = `
 	INSERT INTO users 

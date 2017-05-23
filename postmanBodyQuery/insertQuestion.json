@@ -1,0 +1,37 @@
+{
+    "subjectId": 1,
+    "name": "Вариант 1",
+    "duration": "01:00:00"
+    "questions": [
+        {
+            "questionText": "Самый классный фильм?"
+            "answers": [
+                {
+                    "answerText": "Все о животных",
+                    "isCorrect": "true"
+                },
+                {
+                    "answerText": "Остаться в живых",
+                    "isCorrect": "false"
+                }
+            ]
+        },
+        {
+            "questionText": "Какого цвета трава?"
+            "answers": [
+                {
+                    "answerText": "Синего",
+                    "isCorrect": "false"
+                },
+                {
+                    "answerText": "Красного",
+                    "isCorrect": "false"
+                },
+                {
+                    "answerText": "Зеленого",
+                    "isCorrect": "true"
+                }
+            ]
+        }
+    ]
+}

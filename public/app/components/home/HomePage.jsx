@@ -1,7 +1,5 @@
-import Header from './Header';
-import SubjectsList from './SubjectsList';
-
-// import LoginForm from './LoginForm';
+import Header from '../header/Header';
+import SubjectsList from '../sidebar/SubjectsList';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -11,8 +9,8 @@ export default class App extends React.Component {
   render() {
     return (
         <div>
-          <Header />
-          <SubjectsList />
+          <Header/>
+          {this.props.children}
         </div>
     );
   }

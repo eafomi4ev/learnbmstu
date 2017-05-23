@@ -5,9 +5,17 @@ let router = express.Router();
 const usersServise = require('../service/users');
 
 router.get('/:id', function(request, response) {
-  // db.getUserById(response, +request.params.id);
-  //
-  console.log('Достать user по id');
+  // Достать user по id
+  let id = +request.params.id;
+  usersServise.getUserById(id, (user) =>{
+    delete user.password;
+    response.statusCode = 200;
+    response.setHeader('Content-Type', 'application/json');
+    response.end(JSON.stringify(user));
+  }, (err) => {
+    console.log(err);
+    response.status(404).end();
+  });
 });
 
 router.post('/login', function(request, response) {
@@ -25,7 +33,8 @@ router.post('/login', function(request, response) {
         console.log(userfromdb);
         if (userfromdb.password === user.password) {
           delete userfromdb.password;
-          response.status(200);
+          request.session.userLogin = userfromdb.login;
+          response.status(201);
           response.setHeader('Content-Type', 'application/json');
           response.end(JSON.stringify(userfromdb));
         } else {

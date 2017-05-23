@@ -5,7 +5,7 @@ HOST: http://localhost:3000
 
 Система тестирования знаний
 
-# Предметы и лекции [/subject]
+# Предметы и лекции [/subjects]
 
 ## Получить все предметы и их лекции [GET]
 
@@ -15,6 +15,26 @@ HOST: http://localhost:3000
 
   + Response 404 (application/json)
 
+
+## Создать новый предмет с лекциями [POST]
+  Создание нового предмета с лекциями
+
+  + Request (application/json)
+    + Attributes
+      - subject_id: `-1` (number)
+      - subject_name: `Нейронные сети` (string)
+      - lectures (array[LecturesOnCreate]))
+
+  + Response 200
+
+  + Response 400 (application/json)
+    + Attributes
+      - message: `Неправильная структура json`
+
+  + Response 401 (application/json)
+
+    + Attributes
+      - message: `Нет прав доступа`
 
 ## Создать новый предмет с лекциями [POST]
   Создание нового предмета с лекциями

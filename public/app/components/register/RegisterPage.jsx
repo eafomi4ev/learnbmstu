@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export default class RegisterForm extends React.Component {
+export default class RegisterPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

@@ -1,8 +1,9 @@
 const promise = require('bluebird');
 
 module.exports = {
-  publicRoot: `${process.cwd()}/public`,
+  root: `${process.cwd()}`,
   filesRoot: `${process.cwd()}/files`,
+  lecturesRoot: `${process.cwd()}/public/lectures`,
   limitFileSize: 10e6,
   db: {
     connection: 'postgres://localhost:5432/',
@@ -12,6 +13,6 @@ module.exports = {
       promiseLib: promise,
     },
   },
-  lectureDir: '/public/lectures',
+  serverURL: 'http://localhost:3000',
 }
 ;
