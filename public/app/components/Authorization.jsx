@@ -9,8 +9,8 @@ const Authorization = (allowedRoles) => (WrappedComponent) =>
         // Redux, MobX, RxJS, Backbone...
         this.state = {
           user: {
-            name: 'vcarl',
-            role: 'admin',
+            name: 'carl',
+            role: 'editor',
           },
         };
       }

@@ -19,6 +19,8 @@ import Lecture from './components/lecture/Lecture';
 // import Auth from './components/Auth';
 import Authorization from './components/Authorization';
 import CreateSubject from './components/subject/CreateSubject';
+import CreateTest from './components/createTest/CreateTest';
+import SubjectChoice from './components/testing/SubjectChoice';
 
 const Editor = Authorization(['editor']);
 
@@ -37,10 +39,9 @@ const store = createStore(user, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__
 ReactDOM.render(
     <Provider store={store}>
       <Router history={browserHistory}>
-        <CookiesProvider>
           <Route path="/" component={Header}>
             <IndexRoute component={SubjectsList}/>
-            <Route path='/public/lectures/:subjectName/:lectureName' component={SubjectsList}>
+            <Route path='/subject/:subjectId/lecture/:lectureId' component={SubjectsList}>
               <IndexRoute component={Lecture}/>
             </Route>
             <Route path="/login" component={LoginPage}/>
@@ -48,8 +49,14 @@ ReactDOM.render(
             <Route path="/subjects/create" component={SubjectsList}>
               <IndexRoute component={CreateSubject}/>
             </Route>
+            <Route path="/tests/create" component={SubjectsList}>
+              <IndexRoute component={CreateTest}/>
+            </Route>
+            <Route path="/tests/start" component={SubjectsList}>
+              <IndexRoute component={SubjectChoice}/>
+            </Route>
+            <Route path="/auth" components={Editor(LoginPage)}/>
           </Route>
-        </CookiesProvider>
       </Router>
     </Provider>,
     document.getElementById('root'));

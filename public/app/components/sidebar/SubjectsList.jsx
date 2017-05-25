@@ -21,7 +21,7 @@ export default class SubjectsList extends Auth {
     // debugger;
     // super.componentDidMount();
     // if (super.isAuth) {
-      axios.get('/subjects').then((response) => {
+      axios.get('/subjects/withlectures').then((response) => {
         this.setState({
           subjects: response.data,
         });
@@ -29,7 +29,11 @@ export default class SubjectsList extends Auth {
     // }
   }
 
+// {lectureId || subjectId ? this.props.children : null}
+
   render() {
+    let {subjectId, lectureId} = this.props.params;
+    console.log(this.props.params);
     let subjects = this.state.subjects.map((subject, index) =>
         <MenuItem {...subject} key={index}/>);
 

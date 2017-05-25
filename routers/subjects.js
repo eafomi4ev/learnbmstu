@@ -7,7 +7,7 @@ const lecturesServise = require('../service/lectures');
 const router = express.Router();
 
 // api
-router.get('/', function(req, res) {
+router.get('/withlectures', function(req, res) {
 	// получение всех предметов
 	subjectsServise.getSubjectsAndLectures((data) => {
     let subjects = _makeTreeViewSubjectsAndLectures(data);

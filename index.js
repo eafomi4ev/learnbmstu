@@ -34,11 +34,10 @@ app.use(session({
   resave: true,
 }));
 app.use(bodyParser.urlencoded({extended: true}));
-// app.use(express.static(__dirname + '/dist'));
 // use statinc должен идти после кода app.get('/', ...)
-app.use(express.static(path.join(__dirname + 'public')));
+app.use('/pdf', express.static(path.join(__dirname, 'public')));
 // app.use(express.static('public'));
-app.use(express.static(path.join(__dirname + 'dist')));
+app.use(express.static(path.join(__dirname, 'dist')));
 
 app.use('/', index);
 app.use('/lectures', lectures);

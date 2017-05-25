@@ -5,13 +5,14 @@ import {Link} from 'react-router';
 
 
 export default function MenuItem(props) {
+  let subject = props;
   let lectures = props.lectures.map((lecture, index) =>
-      <Link to={`${lecture.lecture_path}`} key={index}
+      <Link to={`/subject/${subject.subject_id}/lecture/${lecture.lecture_id}`} key={index}
             name={lecture.lecture_name}>
         <li>{lecture.lecture_name}</li>
       </Link>);
 
-  let subject = props;
+
 
   return (
       <div>
