@@ -32,7 +32,7 @@ function getSubjectsAndLectures(resolve, reject) {
 }
 
 function insertSubject(subject, resolve, reject) {
-  db.one(INSERT_SUBJECT, [subject.subject_name]).then((data) => {
+  db.one(INSERT_SUBJECT, [subject.subjectName]).then((data) => {
     resolve(data.id);
   }).catch((err) => {
     reject(err);
@@ -105,18 +105,22 @@ exports.updateSubjectName = updateSubjectName;
 
 // console.log(eventEmitter);
 
-eventEmitter.addListener('lecturesUploaded', (req, res, subject, lecture) => {
+eventEmitter.addListener('lecturesUploaded', (req, res, subject, lectures) => {
   insertSubject(subject, (subjectId) => {
-    lecture.subject_id = subjectId;
-    lecturesServise.insertLectures([lecture], ()=> {
-      console.log('Лекция добавлена в БД');
+    for(let i in lectures) {
+      lectures[i].subject_id = subjectId;
+      lecturesServise.insertLectures([lecture], ()=> {
+        console.log('Лекция добавлена в БД');
       }, (err) => {
-      console.log(err);
-    });
+        console.log(err);
+      });
+    }
     res.status(200);
     res.end();
   }, (err) => {
     console.log(err);
+    res.statusCode = 400;
+    res.end();
   });
 
 });

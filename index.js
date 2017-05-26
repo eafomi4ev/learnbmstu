@@ -16,6 +16,8 @@ const subjects = require('./routers/subjects');
 const users = require('./routers/users');
 const tests = require('./routers/tests');
 
+app.use(express.static(path.join(__dirname, 'dist')));
+
 app.use(function(req, res, next) { // middleware для настроки CORS запросов
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers',
@@ -36,33 +38,17 @@ app.use(session({
 app.use(bodyParser.urlencoded({extended: true}));
 // use statinc должен идти после кода app.get('/', ...)
 app.use('/pdf', express.static(path.join(__dirname, 'public')));
-// app.use(express.static('public'));
-app.use(express.static(path.join(__dirname, 'dist')));
 
-app.use('/', index);
+// app.use('/', index);
 app.use('/lectures', lectures);
 app.use('/subjects', subjects);
 app.use('/users', users);
 app.use('/tests', tests);
-app.use('/upload', function(req, res) {
-  console.log(req.files);
-});
-app.get('/app.js', (req, res) => {
+app.get(/app.js/, (req, res) => {
   res.sendFile(path.join(__dirname, '/dist/app.js'));
 });
-
-//
-// app.use(function(err, req, res, next) {
-//   console.log(err, req, res);
-//   if (err.status >= 200 && err.status < 300) {
-//     res.sendFile(path.join(__dirname, '/dist/index.html'));
-//     return;
-//   }
-//   err.status = 500;
-//   res.json({
-//     message: 'Ошибка url',
-//   });
-//   res.end();
-// });
+app.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 app.listen(3000);

@@ -33,7 +33,6 @@ export default class SubjectsList extends Auth {
 
   render() {
     let {subjectId, lectureId} = this.props.params;
-    console.log(this.props.params);
     let subjects = this.state.subjects.map((subject, index) =>
         <MenuItem {...subject} key={index}/>);
 

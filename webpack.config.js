@@ -1,7 +1,7 @@
 var path = require('path'); //подключение модуля nodejs для работы с путями
 var webpack = require('webpack'); //подключение модуля webpack
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+// var BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {

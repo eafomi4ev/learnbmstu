@@ -18,7 +18,7 @@ import RegisterPage from './components/register/RegisterPage';
 import Lecture from './components/lecture/Lecture';
 // import Auth from './components/Auth';
 import Authorization from './components/Authorization';
-import CreateSubject from './components/subject/CreateSubject';
+import CreateSubject from './components/createSubject/CreateSubject';
 import CreateTest from './components/createTest/CreateTest';
 import SubjectChoice from './components/testing/SubjectChoice';
 
