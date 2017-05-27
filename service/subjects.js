@@ -105,22 +105,3 @@ exports.updateSubjectName = updateSubjectName;
 
 // console.log(eventEmitter);
 
-eventEmitter.addListener('lecturesUploaded', (req, res, subject, lectures) => {
-  insertSubject(subject, (subjectId) => {
-    for(let i in lectures) {
-      lectures[i].subject_id = subjectId;
-      lecturesServise.insertLectures([lecture], ()=> {
-        console.log('Лекция добавлена в БД');
-      }, (err) => {
-        console.log(err);
-      });
-    }
-    res.status(200);
-    res.end();
-  }, (err) => {
-    console.log(err);
-    res.statusCode = 400;
-    res.end();
-  });
-
-});

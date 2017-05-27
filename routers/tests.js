@@ -47,6 +47,25 @@ router.get('/start', function(req, res) {
   // начало нового тестирования
 });
 
+router.get('/random/:subjectId', function(req, res) {
+  let subjectId = +req.params.subjectId;
+
+  testsService.getSubjectTestsId(subjectId, (testsId) => {
+    let randomPosition = Math.floor(
+        1 + Math.random() * (testsId.length + 1 - 1));
+    testsService.getTestBySubjectId(subjectId, testsId[randomPosition-1].testid,
+        (data) => {
+          let test = _makeTreeViewInTest(data);
+          res.status(200).json(test);
+          res.end();
+        }, (err) => {
+          console.log(err);
+        });
+  }, (err) => {
+    console.log(err);
+  });
+});
+
 module.exports = router;
 
 function _addTestToDB(req, res) {
@@ -72,8 +91,6 @@ function _addTestToDB(req, res) {
       });
     }
 
-
-
     res.status(200).json(testId);
     res.end();
   }, (err) => {
@@ -98,4 +115,33 @@ function _addTestToDB(req, res) {
     }
     res.end();
   });
+}
+
+function _makeTreeViewInTest(json) {
+  let test = {
+    testId: json[0].testid,
+    testName: json[0].test_name,
+    subjectName: json[0].subject_name,
+    questions: [],
+  };
+
+  let questions = {};
+  for (let i in json) {
+    if (!questions.hasOwnProperty(json[i].question_text)) {
+      questions[json[i].question_text] = {
+        questionId: json[i].questionid,
+        questionText: json[i].question_text,
+        answers: [],
+      };
+    }
+    questions[json[i].question_text].answers.push({
+      answerId: json[i].answerid,
+      answerText: json[i].answer_text,
+      isCorrect: json[i].is_correct,
+    });
+  }
+  for (let key in questions) {
+    test.questions.push(questions[key]);
+  }
+  return test;
 }
