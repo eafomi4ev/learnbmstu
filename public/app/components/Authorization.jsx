@@ -1,6 +1,5 @@
 import {connect} from 'react-redux';
 import {autobind} from 'core-decorators';
-import LoginPage from
 
 const Authorization = (allowedRoles) => (WrappedComponent) => {
   @connect((store) => {

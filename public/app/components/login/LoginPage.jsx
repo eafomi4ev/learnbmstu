@@ -2,6 +2,8 @@ import {connect} from 'react-redux';
 import {autobind} from 'core-decorators';
 import * as actions from '../../actions/auth';
 
+
+
 import '../../../css/login';
 
 
@@ -18,16 +20,20 @@ export default class LoginPage extends React.Component {
   }
 
   handleSubmit(event) {
-    debugger;
     event.preventDefault();
     let login = this.refs.login.value;
     let password = this.refs.password.value;
     let p = actions.login(login, password);
+    debugger;
     this.props.dispatch(p);
   }
 
   componentWillUpdate() {
     // this.props.user загружен и имеет id => redirect
+    // if (this.props.isProcessing) {
+    //   console.log('Логин', this.props.isProcessing);
+    // }
+    console.log('User');
     console.log(this);
   }
 

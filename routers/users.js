@@ -30,7 +30,6 @@ router.post('/login', function(request, response) {
 
   usersServise.getUserByLogin(user.login,
       (userfromdb) => {
-        console.log(userfromdb);
         if (userfromdb.password === user.password) {
           delete userfromdb.password;
           request.session.userLogin = userfromdb.login;

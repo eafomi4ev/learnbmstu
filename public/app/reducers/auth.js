@@ -1,15 +1,18 @@
 import * as consts from '../consts/auth';
 
 export function auth(state = {user: null, isProcessing: false}, action) {
-
+  console.log(action.type);
   switch (action.type) {
     case `${consts.LOGIN}_PENDING`:
+      debugger;
       state = {...state, isProcessing: true};
       break;
     case `${consts.LOGIN}_FULFILLED`:
+      debugger;
       state = {...state, isProcessing: false, user: action.payload.data};
       break;
     case `${consts.LOGIN}_REJECTED`:
+      debugger;
       state = {...state, isProcessing: false, error_message: action.payload.message};
       break;
     case `${consts.LOGOUT}_PENDING`:

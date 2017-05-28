@@ -1,11 +1,13 @@
 import * as consts from '../consts/auth';
 import axios from 'axios';
-import config from 'config';
+import config from '../configs/main';
+
+// const conf = require('config');
 
 export function login(userName, password) {
   return {
     type: consts.LOGIN,
-    payload: axios.post(config.get('serverURL') + '/users/login', {
+    payload: axios.post(config.baseUrl + '/users/login', {
       login: userName,
       password,
     }),

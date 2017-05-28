@@ -28,7 +28,6 @@ export default class CreateSubject extends React.Component {
           let lecturesNameInputs = $('input:text');
           for (let i = 0; i < fileInputs.length; i++) {
             let data = new FormData();
-            debugger;
             data.append('file', fileInputs[i].files[0]);
             data.append('lectureName', lecturesNameInputs[i+1].value);
             data.append('subjectName', subjectName);

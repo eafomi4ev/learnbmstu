@@ -20,31 +20,27 @@ import CreateSubject from './components/createSubject/CreateSubject';
 import CreateTest from './components/createTest/CreateTest';
 import SubjectChoice from './components/testing/SubjectChoice';
 import store from './stores/store';
+import HomePage from './components/home/HomePage';
+import TestingQuestion from './components/testing/TestingQuestion';
 
 // const Editor = Authorization(['editor']);
 // <Route path="/auth" components={Editor(LoginPage)}/>
 
-
 ReactDOM.render(
     <Provider store={store}>
       <Router history={browserHistory}>
-          <Route path="/" component={Header}>
-            <IndexRoute component={SubjectsList}/>
-            <Route path='/subject/:subjectId/lecture/:lectureId' component={SubjectsList}>
-              <IndexRoute component={Lecture}/>
-            </Route>
-            <Route path="/login" component={LoginPage}/>
-            <Route path="/register" component={RegisterPage}/>
-            <Route path="/subjects/create" component={SubjectsList}>
-              <IndexRoute component={CreateSubject}/>
-            </Route>
-            <Route path="/tests/create" component={SubjectsList}>
-              <IndexRoute component={CreateTest}/>
-            </Route>
-            <Route path="/tests/start" component={SubjectsList}>
-              <IndexRoute component={SubjectChoice}/>
-            </Route>
-          </Route>
+
+        <Route path="/" component={HomePage}>
+          <Route path='/subject/:subjectId/lecture/:lectureId' component={Lecture}/>
+          <Route path="/subjects/create" component={CreateSubject}/>
+          <Route path="/tests/create" component={CreateTest}/>
+          <Route path="/tests/choice" component={SubjectChoice}/>
+          <Route path="/tests/start/:subjectId" component={TestingQuestion}/>
+        </Route>
+
+        <Route path="/login" component={LoginPage}/>
+        <Route path="/register" component={RegisterPage}/>
+
       </Router>
     </Provider>,
     document.getElementById('root'));

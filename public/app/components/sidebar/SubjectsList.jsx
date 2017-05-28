@@ -1,7 +1,6 @@
 import axios from 'axios';
 import MenuItem from './MenuItem';
 
-
 import '../../../css/sidebar';
 
 export default class SubjectsList extends React.Component {
@@ -12,26 +11,18 @@ export default class SubjectsList extends React.Component {
     };
   };
 
-  // static contextTypes = {
-  //   cookies: React.PropTypes.any
-  // };
-  //
-  componentDidMount() {
-    // debugger;
-    // super.componentDidMount();
-    // if (super.isAuth) {
-      axios.get('/subjects/withlectures').then((response) => {
-        this.setState({
-          subjects: response.data,
-        });
+  componentWillMount() {
+    axios.get('/subjects/withlectures').then((response) => {
+      this.setState({
+        subjects: response.data,
       });
-    // }
+    });
   }
 
 // {lectureId || subjectId ? this.props.children : null}
 
   render() {
-    let {subjectId, lectureId} = this.props.params;
+    // let {subjectId, lectureId} = this.props.params;
     let subjects = this.state.subjects.map((subject, index) =>
         <MenuItem {...subject} key={index}/>);
 
@@ -48,9 +39,6 @@ export default class SubjectsList extends React.Component {
 
               </ul>
             </div>
-          </div>
-          <div class="col-md-offset-3 col-md-8">
-            {this.props.children}
           </div>
         </div>
     );

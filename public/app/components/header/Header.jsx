@@ -1,5 +1,16 @@
 import {Link} from 'react-router';
 
+import {connect} from 'react-redux';
+import {autobind} from 'core-decorators';
+import * as actions from '../../actions/auth';
+
+@connect((store) => {
+  return {
+    user: store.user.user,
+    isProcessing: store.user.isProcessing,
+  }
+})
+@autobind()
 export default class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -26,7 +37,7 @@ export default class Header extends React.Component {
                   <ul class="nav navbar-nav">
                     <li><Link to='/'>Home</Link></li>
                     <li><Link to='/auth'>Тест авторизации</Link></li>
-                    <li><Link to='/tests/start'>Пройти тест</Link></li>
+                    <li><Link to='/tests/choice'>Пройти тест</Link></li>
                   </ul>
 
                   <ul class="nav navbar-nav navbar-right">
@@ -55,7 +66,6 @@ export default class Header extends React.Component {
               </div>
             </nav>
           </div>
-          {this.props.children}
         </div>
     );
   }

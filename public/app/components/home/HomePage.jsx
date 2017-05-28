@@ -10,7 +10,10 @@ export default class App extends React.Component {
     return (
         <div>
           <Header/>
-          {this.props.children}
+          <SubjectsList />
+          <div class="col-md-offset-3 col-md-8">
+            {this.props.children}
+          </div>
         </div>
     );
   }
