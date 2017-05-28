@@ -1,72 +1,52 @@
-import axios from 'axios';
 import {connect} from 'react-redux';
+import {autobind} from 'core-decorators';
+import * as actions from '../../actions/auth';
 
 import '../../../css/login';
 
-class LoginPage extends React.Component {
+
+@connect((store) => {
+  return {
+    user: store.user.user,
+    isProcessing: store.user.isProcessing,
+  }
+})
+@autobind()
+export default class LoginPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      login: '',
-      password: '',
-    };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleLoginChange = this.handleLoginChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
   }
 
   handleSubmit(event) {
+    debugger;
     event.preventDefault();
-    console.log('form is submitted. Login is', this.state.login);
-    axios({
-      method: 'post',
-      url: 'http://localhost:3000/users/login',
-      data: {
-        login: this.state.login,
-        password: this.state.password,
-      },
-    }).then(function(res) {
-      console.log(res);
-      // res.redirect('http://localhost:3000');
-    }).catch(function(error) {
-      console.log('Неправильный логин или пароль');
-      // console.log(error);
-    });
+    let login = this.refs.login.value;
+    let password = this.refs.password.value;
+    let p = actions.login(login, password);
+    this.props.dispatch(p);
   }
 
-  handleLoginChange(event) {
-    // console.log('Login was changed', event.target.value);
-    this.setState({
-      login: event.target.value,
-    });
-  }
-
-  handlePasswordChange(event) {
-    // console.log('Password was changed', event.target.value);
-    this.setState({
-      password: event.target.value,
-    });
+  componentWillUpdate() {
+    // this.props.user загружен и имеет id => redirect
+    console.log(this);
   }
 
   render() {
-    console.log(this.props.testStore);
     return (
         <div class="container" onSubmit={this.handleSubmit}>
           <form class="form-signin" role="form">
             <h2 class="form-signin-heading">Please sign in</h2>
-            <input ref={(input) => {this.login = input;}}
-                   type="login"
+            <input ref="login"
+                   type="text"
                    class="form-control"
                    placeholder="Login"
                    required
-                   autoFocus
-                   value={this.state.login}
-                   onChange={this.handleLoginChange}/>
+                   autoFocus/>
             <input type="password"
                    class="form-control"
                    placeholder="Password"
                    required
-                   onChange={this.handlePasswordChange}/>
+                   ref="password"/>
             <button class="btn btn-lg btn-primary btn-block" type="submit">Sign
               in
             </button>
@@ -76,9 +56,3 @@ class LoginPage extends React.Component {
   }
 }
 
-export default connect(
-    (state) => ({
-      testStore: state,
-    }),
-    (dispatch) => ({}),
-)(LoginPage);

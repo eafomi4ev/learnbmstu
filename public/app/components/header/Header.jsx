@@ -44,8 +44,8 @@ export default class Header extends React.Component {
                          data-toggle="dropdown">Профиль <b
                           class="caret"></b></a>
                       <ul class="dropdown-menu">
-                        <li><Link to='/Вход'>Login</Link></li>
-                        <li><Link to='/Регистрация'>Register</Link></li>
+                        <li><Link to='/login'>Login</Link></li>
+                        <li><Link to='/register'>Register</Link></li>
                         <li class="divider"></li>
                         <li><Link to='#'>Выход</Link></li>
                       </ul>

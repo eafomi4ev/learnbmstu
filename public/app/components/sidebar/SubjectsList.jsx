@@ -1,11 +1,10 @@
 import axios from 'axios';
 import MenuItem from './MenuItem';
-import Auth from '../Auth';
 
 
 import '../../../css/sidebar';
 
-export default class SubjectsList extends Auth {
+export default class SubjectsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
