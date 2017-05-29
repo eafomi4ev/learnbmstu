@@ -37,7 +37,8 @@ app.use(session({
 }));
 app.use(bodyParser.urlencoded({extended: true}));
 // use statinc должен идти после кода app.get('/', ...)
-app.use('/pdf', express.static(path.join(__dirname, 'public')));
+app.use('/pdf/public', express.static(path.join(__dirname, 'public')));
+// app.use('/pdf', lectures);
 
 // app.use('/', index);
 app.use('/lectures', lectures);

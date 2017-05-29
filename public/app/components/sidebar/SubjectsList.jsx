@@ -1,31 +1,34 @@
-import axios from 'axios';
-import MenuItem from './MenuItem';
-
 import '../../../css/sidebar';
 
+import MenuItem from './MenuItem';
+import {connect} from 'react-redux';
+import {autobind} from 'core-decorators';
+import * as actions from '../../actions/subjects';
+
+@connect((store) => {
+  return {
+    subjects: store.subjects.subjects,
+    isProcessing: store.subjects.isProcessing,
+  };
+})
+@autobind()
 export default class SubjectsList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      subjects: [],
-    };
   };
 
   componentWillMount() {
-    axios.get('/subjects/withlectures').then((response) => {
-      this.setState({
-        subjects: response.data,
-      });
-    });
+
+    let p = actions.getSubjects();
+    this.props.dispatch(p);
   }
 
-// {lectureId || subjectId ? this.props.children : null}
-
   render() {
-    // let {subjectId, lectureId} = this.props.params;
-    let subjects = this.state.subjects.map((subject, index) =>
-        <MenuItem {...subject} key={index}/>);
-
+    let subjects;
+    if (this.props.subjects) {
+      subjects = this.props.subjects.map((subject, index) =>
+          <MenuItem {...subject} key={index}/>);
+    }
     return (
 
         <div>

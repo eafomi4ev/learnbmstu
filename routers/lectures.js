@@ -55,6 +55,10 @@ router.post('/upload', function(req, res) {
 
 });
 
+router.get('pdf/:lectureId', (req, res) => {
+  lecturesServise.getLecture
+});
+
 router.put('/:id/update', function(req, res) {
   // Изменить лекцию
 });

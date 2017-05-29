@@ -74,6 +74,12 @@ router.post('/register', function(request, response) {
   });
 });
 
+router.post('/logout', (req, res) => {
+  delete req.session.userLogin;
+  res.statusCode = 200;
+  res.end();
+});
+
 module.exports = router;
 
 function isAllfieldHasContent(user) {
