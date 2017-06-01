@@ -1,6 +1,19 @@
 import {Link} from 'react-router';
 import axios from 'axios';
 
+import {connect} from 'react-redux';
+import {autobind} from 'core-decorators';
+import * as actions from '../../actions';
+import { browserHistory } from 'react-router';
+
+@connect((store) => {
+  return {
+    user: store.user.user,
+    test: store.test.test,
+    testing: store.testing.testing,
+  }
+})
+@autobind()
 export default class SubjectChoice extends React.Component {
   constructor(props) {
     super(props);
@@ -34,6 +47,17 @@ export default class SubjectChoice extends React.Component {
     this.setSubjectsToState();
   }
 
+  handleClick(event) {
+    // запрос на выдачу теста и помещение в стор
+    event.preventDefault();
+    let subjectId = this.state.chosenSubject;
+    let p = actions.test.getTest(subjectId);
+    this.props.dispatch(p);
+    // запрос на создание тестирования и помещение в стор
+    browserHistory.push('/tests/start/'+subjectId);
+    // переход на страницу отображение теста
+  }
+
   render() {
     let selectorItems = this.state.subjects.map((subject, i) => {
       return <option value={subject.subject_id} key={i}>{subject.subject_name}</option>;
@@ -47,7 +71,9 @@ export default class SubjectChoice extends React.Component {
               {selectorItems}
             </select>
           </p>
+
           <Link to={`/tests/start/${this.state.chosenSubject}`}>GO!</Link>
+          <Link onClick={this.handleClick}>GO2!</Link>
         </div>
     );
   }

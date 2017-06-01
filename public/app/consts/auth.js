@@ -1,5 +1,6 @@
 const LOGIN = 'LOGIN_USER';
 const LOGOUT = 'LOGOUT_USER';
+const GET_USER_COOKIE = 'GET_USER_COOKIE';
 
 
-export {LOGIN, LOGOUT};
+export {LOGIN, LOGOUT, GET_USER_COOKIE};

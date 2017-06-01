@@ -4,7 +4,7 @@ import {autobind} from 'core-decorators';
 const Authorization = (allowedRoles) => (WrappedComponent) => {
   @connect((store) => {
     return {
-      user: store.auth.user,
+      user: store.user.user,
     }
   })
   @autobind()
@@ -14,6 +14,7 @@ const Authorization = (allowedRoles) => (WrappedComponent) => {
     }
 
     render() {
+      debugger;
       const {role} = this.props.user;
       if (allowedRoles.includes(role)) {
         return (<WrappedComponent {...this.props} />);

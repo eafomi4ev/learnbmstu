@@ -3,7 +3,6 @@ import {autobind} from 'core-decorators';
 import * as actions from '../../actions/subjects';
 import config from '../../configs/main';
 
-
 @connect((store) => {
   return {
     subjects: store.subjects.subjects,
@@ -14,6 +13,8 @@ import config from '../../configs/main';
 export default class Lecture extends React.Component {
   constructor(props) {
     super(props);
+    this.subjectName = '';
+    this.lectureName = ';'
     this.lecturePath = '';
   }
 
@@ -23,9 +24,11 @@ export default class Lecture extends React.Component {
     let lecturePath = '';
     this.props.subjects.forEach((subject, i) => {
       if(subject.subject_id === subjectId) {
+        this.subjectName = subject.subject_name;
         subject.lectures.forEach((lecture, i) => {
           if(lecture.lecture_id === lectureId) {
             this.lecturePath = lecture.lecture_path;
+            this.lectureName = lecture.lecture_name;
             return;
           }
         });
@@ -41,6 +44,7 @@ export default class Lecture extends React.Component {
     return (
         <div>
           <div>
+            {`${this.subjectName} - ${this.lectureName}`}
             <br/>
             <embed
                 src={`${config.baseUrl}/pdf${this.lecturePath}`}

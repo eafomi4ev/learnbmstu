@@ -22,3 +22,9 @@ export function logout(userName) {
     }),
   };
 }
+
+export function getUserCookie() {
+  return {
+    type: consts.GET_USER_COOKIE,
+  };
+}

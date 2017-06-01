@@ -6,12 +6,17 @@ import {createStore, combineReducers, applyMiddleware} from 'redux';
 
 import {auth} from '../reducers/auth';
 import {subjects} from '../reducers/subjects';
+import {test} from '../reducers/test';
+import {testing} from '../reducers/testing';
 
 const mw = applyMiddleware(promise(), thunk, createLogger());
 
 const reducer = combineReducers({
   user: auth,
   subjects: subjects,
+  test: test,
+  testing: testing,
+
 });
 
 const store = createStore(reducer, composeWithDevTools(mw));

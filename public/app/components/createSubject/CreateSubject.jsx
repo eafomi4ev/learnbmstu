@@ -19,6 +19,13 @@ export default class CreateSubject extends React.Component {
     });
   }
 
+  removeLectureField(event) {
+    event.preventDefault();
+    this.setState({
+      lecturesCount: this.state.lecturesCount > 0 ? this.state.lecturesCount - 1 : 0,
+    });
+  }
+
   submitHandler(event) {
     event.preventDefault();
     let subjectName = document.getElementsByName('subjectName')[0].value;
@@ -61,6 +68,9 @@ export default class CreateSubject extends React.Component {
             <button onClick={this.appendLectureField.bind(this)}
                     style={{marginRight: '15px'}}>Добавить
               еще лекцию
+            </button>
+            <button onClick={this.removeLectureField.bind(this)}
+              style={{marginRight: '15px'}}>Отменить добавление лекции
             </button>
             <input type="button" onClick={this.submitHandler.bind(this)}
                    value="Создать предмет"/>

@@ -4,11 +4,14 @@ const db = require('../instances/db');
 
 const INSERT_TEST = `INSERT INTO tests 
   (id, subjectid, name, duration, count_answers_for_pass) VALUES
-	(DEFAULT, $1, $2, $3::TIME, null) RETURNING id;`;
+	(DEFAULT, $1, $2, '$3'::TIME, null) RETURNING id;`;
 
 const GET_SUBJECT_TESTS = `SELECT DISTINCT testid FROM test_content WHERE subjectid=$1;`;
 
 const GET_SUBJECT_TEST = `SELECT * FROM test_content WHERE subjectid=$1 AND testid=$2;`;
+
+const INSERT_TESTING = `INSERT INTO user_testings (id, testid, userid, date_start) VALUES
+(DEFAULT, $1, $2, $3) RETURNING id;`;
 
 function insertTest(test, resolve, reject) {
   db.one(INSERT_TEST, [test.subjectId, test.name, test.duration]).
@@ -30,6 +33,13 @@ function getSubjectTestsId(subjectId, resolve, reject) {
   });
 }
 
+function insertTesting(userId, testId, dateStart, resolve, reject) {
+  db.one(INSERT_TESTING, [userId, testId, dateStart]).
+      then((data) => resolve(data)).
+      catch((err) => reject(err));
+}
+
 exports.insertTest = insertTest;
 exports.getTestBySubjectId = getTestBySubjectId;
 exports.getSubjectTestsId = getSubjectTestsId;
+exports.insertTesting = insertTesting;

@@ -43,8 +43,19 @@ router.post('/:id/questions', function(req, res) {
   });
 });
 
-router.get('/start', function(req, res) {
-  // начало нового тестирования
+router.post('/start', function(req, res) {
+  debugger;
+  let userId = +req.body.userId;
+  let testId = +req.body.testId;
+  let dateStart = new Date();
+  testsService.insertTesting(userId, testId, dateStart, (data)=>{
+    console.log(data);
+    res.end(JSON.stringify(data));
+  }, (err)=>{
+    console.log(err);
+    res.end(err);
+  });
+
 });
 
 router.get('/random/:subjectId', function(req, res) {
@@ -56,6 +67,7 @@ router.get('/random/:subjectId', function(req, res) {
     testsService.getTestBySubjectId(subjectId, testsId[randomPosition-1].testid,
         (data) => {
           let test = _makeTreeViewInTest(data);
+
           res.status(200).json(test);
           res.end();
         }, (err) => {

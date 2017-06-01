@@ -1,0 +1,5 @@
+const START_TESTING = 'START_TESTING';
+
+export {
+  START_TESTING,
+};

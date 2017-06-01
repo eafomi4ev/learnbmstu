@@ -23,7 +23,7 @@ import store from './stores/store';
 import HomePage from './components/home/HomePage';
 import TestingQuestion from './components/testing/TestingQuestion';
 
-// const Editor = Authorization(['editor']);
+const Editor = Authorization(['editor']);
 // <Route path="/auth" components={Editor(LoginPage)}/>
 
 ReactDOM.render(
