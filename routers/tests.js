@@ -44,18 +44,48 @@ router.post('/:id/questions', function(req, res) {
 });
 
 router.post('/start', function(req, res) {
-  debugger;
   let userId = +req.body.userId;
   let testId = +req.body.testId;
   let dateStart = new Date();
-  testsService.insertTesting(userId, testId, dateStart, (data)=>{
+  testsService.insertTesting(testId, userId, dateStart, (data) => {
     console.log(data);
     res.end(JSON.stringify(data));
-  }, (err)=>{
+  }, (err) => {
     console.log(err);
     res.end(err);
   });
+});
 
+router.post('/set/answer', function(req, res) {
+  testsService.insertUserAnswer(
+      req.body.userTestingId,
+      req.body.questionId,
+      req.body.answerId,
+      () => {
+        res.statusCode = 200;
+        res.end();
+      },
+      (err) => {
+        console.log(err);
+        res.statusCode = 400;
+        res.end();
+      }
+  );
+});
+
+router.post('/finish', (req, res) => {
+  testsService.finishTesting(
+      new Date(),
+      req.body.userTestingId,
+      () => {
+        res.statusCode = 200;
+        res.end();
+      },
+      (err) => {
+        console.log(err);
+        res.statusCode = 400;
+        res.end();
+      });
 });
 
 router.get('/random/:subjectId', function(req, res) {
@@ -64,7 +94,8 @@ router.get('/random/:subjectId', function(req, res) {
   testsService.getSubjectTestsId(subjectId, (testsId) => {
     let randomPosition = Math.floor(
         1 + Math.random() * (testsId.length + 1 - 1));
-    testsService.getTestBySubjectId(subjectId, testsId[randomPosition-1].testid,
+    testsService.getTestBySubjectId(subjectId,
+        testsId[randomPosition - 1].testid,
         (data) => {
           let test = _makeTreeViewInTest(data);
 
@@ -87,7 +118,6 @@ function _addTestToDB(req, res) {
     duration: req.body.duration,
   };
   testsService.insertTest(test, (testId) => {
-
     // При успешном добавлении теста, добавляем вопросы и ответы
     test.testId = testId;
     let questions = req.body.questions;
@@ -133,6 +163,7 @@ function _makeTreeViewInTest(json) {
   let test = {
     testId: json[0].testid,
     testName: json[0].test_name,
+    testDuration: json[0].duration,
     subjectName: json[0].subject_name,
     questions: [],
   };

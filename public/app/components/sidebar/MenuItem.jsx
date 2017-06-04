@@ -16,7 +16,7 @@ export default function MenuItem(props) {
       <div>
         <li data-toggle="collapse" data-target={'#lecture' + subject.subject_id}
             class="collapsed">
-          <a href="#"><i class="fa fa-gift fa-lg"></i> {subject.subject_name}
+          <a href="#"><i class="fa fa-circle-o fa-lg" aria-hidden="true"></i> {subject.subject_name}
             <span class="arrow"></span></a>
         </li>
         <ul class="sub-menu collapse" id={'lecture' + subject.subject_id}>

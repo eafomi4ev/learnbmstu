@@ -33,6 +33,7 @@ CREATE TABLE tests (
   id                     SERIAL NOT NULL,
   subjectid              int4 NOT NULL,
   name                   text NOT NULL,
+  module                 int4,
   duration               time NOT NULL,
   count_answers_for_pass int4,
   PRIMARY KEY (id));
@@ -86,6 +87,7 @@ CREATE VIEW test_content AS
 SELECT
 	tests.id AS testid,
 	tests.name AS test_name,
+	tests.duration,
 	tests.subjectid,
 	subjects.name AS subject_name,
 	questions.id AS questionid,
@@ -153,5 +155,3 @@ ALTER TABLE user_testings ADD CONSTRAINT "Тест выдается на тес�
 ALTER TABLE tests ADD CONSTRAINT "тест по предмету" FOREIGN KEY (subjectid) REFERENCES subjects (id);
 ALTER TABLE users ADD CONSTRAINT "юзер находится в группе" FOREIGN KEY (groupid) REFERENCES groups (id);
 ALTER TABLE user_testings ADD CONSTRAINT "юзер проходит тестирование" FOREIGN KEY (userid) REFERENCES users (id);
-
-

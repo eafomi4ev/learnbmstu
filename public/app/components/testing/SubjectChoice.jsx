@@ -70,10 +70,16 @@ export default class SubjectChoice extends React.Component {
               <option selected disabled key={-1}>Выберите предмет</option>
               {selectorItems}
             </select>
+            <select size="1">
+              <option selected disabled key={-1}>Выберите модуль</option>
+              <option key={0}>1</option>
+              <option key={1}>2</option>
+              <option key={2}>3</option>
+              <option key={3}>4</option>
+            </select>
           </p>
 
-          <Link to={`/tests/start/${this.state.chosenSubject}`}>GO!</Link>
-          <Link onClick={this.handleClick}>GO2!</Link>
+          <Link onClick={this.handleClick}>GO!</Link>
         </div>
     );
   }
