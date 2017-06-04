@@ -5,6 +5,9 @@ const router = express.Router();
 const testsService = require('../service/tests');
 const userService = require('../service/users');
 const questionsService = require('../service/question');
+const pdf = require('html-pdf');
+const handlebars = require('handlebars');
+const fs = require('fs');
 
 /**
  * Создание теста
@@ -85,6 +88,38 @@ router.post('/finish', (req, res) => {
         console.log(err);
         res.statusCode = 400;
         res.end();
+      });
+});
+
+router.get('/report/:id', (req, res) => {
+  let html = fs.readFileSync('./easyhtml.html', 'utf8');
+  let template = handlebars.compile(html);
+  let data = {
+    title: 'Загловок',
+    fullName: 'Васичкин Петр Леонидович',
+    group: 'ИУ10-53',
+    subject: 'Нейронные сети',
+    option: 4,
+    date: '12/05/2017',
+    answers: [
+      {
+        answer: 3,
+        isCorrect: false,
+      },
+      {
+        answer: 'Зеленого',
+        isCorrect: true,
+      },
+    ],
+  };
+  let result = template(data);
+  let options = {};
+  // window.open
+  let fileName = './reports/report_' + req.params.id + '_' + (+new Date()) +
+      '.pdf';
+  pdf.create(result, options).
+      toFile(fileName, (err, file) => {
+        res.json(file).end();
       });
 });
 

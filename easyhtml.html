@@ -1,23 +1,27 @@
 <html>
 <head>
     <title>
-        Пример 1
+        {{title}}
     </title>
 </head>
 <body>
-<H1>
-    Привет!
-</H1>
-<P>
-    Это простейший пример HTML-документа.
-</P>
-<P>
-    Этот *.html-файл может быть
-    одновременно открыт и в Notepad, и в Netscape.
-    Сохранив изменения в Notepad, просто нажмите
-    кнопку Reload ('перезагрузить') в Netscape,
-    чтобы увидеть эти изменения реализованными
-    в HTML-документе.
-</P>
+<p>ФИО: {{fullName}}</p>
+<p>Группа: {{group}}</p>
+<p>Предмет: {{subject}}</p>
+<p>Вариант: {{option}}</p>
+<p>Дата: {{date}}</p>
+<br/>
+<p>Ответы: </p>
+<ul>
+    {{#each answers}}
+    <li>{{answer}}
+        {{#if isCorrect}}
+        <span> Верно</span>
+        {{else}}
+        <span> Неверно</span>
+        {{/if}}
+    </li>
+    {{/each}}
+</ul>
 </body>
 </html>
