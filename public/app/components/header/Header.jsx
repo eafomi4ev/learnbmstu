@@ -36,7 +36,7 @@ export default class Header extends React.Component {
                      id="bs-example-navbar-collapse-1">
                   <ul class="nav navbar-nav">
                     <li><Link to='/'>Home</Link></li>
-                    <li><Link to='/tests/choice'>Пройти тест</Link></li>
+                    {this.props.user && <li><Link to='/tests/choice'>Пройти тест</Link></li>}
                   </ul>
                   <ul class="nav navbar-nav navbar-right">
                     <HeaderAdmin user={this.props.user} />

@@ -92,6 +92,7 @@ router.post('/finish', (req, res) => {
 });
 
 router.get('/report/:id', (req, res) => {
+  debugger;
   let html = fs.readFileSync('./easyhtml.html', 'utf8');
   let template = handlebars.compile(html);
   let data = {

@@ -37,22 +37,23 @@ export default class CreateTest extends React.Component {
                 onSubmit={this.submitHandler}>
 
             <p><select size="1">
-              <option disabled>Выберите героя</option>
+              <option selected disabled>Выберите предмет</option>
               <option value="Нейронные сети">Нейронные сети</option>
-              <option selected value="Механика полета">Механика полета</option>
+              <option value="Механика полета">Механика полета</option>
               <option value="ТС САУ">ТС САУ</option>
               <option value="Математика">Математика</option>
             </select></p>
             <input type="text" placeholder="Название теста" />
+            <input type="text" placeholder="Модуль" />
             <hr/>
             {inputQuestion}
             <br />
             <br />
-            <button onClick={this.appendQuestion.bind(this)}
+            <button class="btn btn-default" onClick={this.appendQuestion.bind(this)}
                     style={{marginRight: '15px'}}>Добавить
               еще вопрос
             </button>
-            <input type="submit" value="Создать тест"/>
+            <input type="submit" class="btn btn-danger" value="Создать тест"/>
           </form>
         </div>
 

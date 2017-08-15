@@ -44,11 +44,11 @@ export default class Lecture extends React.Component {
     return (
         <div>
           <div>
-            {`${this.subjectName} - ${this.lectureName}`}
+            <div style={{textAlign: 'center', fontWeight: 'bold', fontSize: '150%'}}><span style={{marginLeft: '50px'}}>{`${this.subjectName} - ${this.lectureName}`}</span></div>
             <br/>
             <embed
                 src={`${config.baseUrl}/pdf${this.lecturePath}`}
-                width="850" height="600"
+                width="850" height="570"
                 type="application/pdf"/>
           </div>
         </div>

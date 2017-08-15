@@ -66,13 +66,17 @@ export default class CreateSubject extends React.Component {
             {inputLectures}
             <br />
             <button onClick={this.appendLectureField.bind(this)}
-                    style={{marginRight: '15px'}}>Добавить
+                    style={{marginRight: '15px'}}
+                    class="btn btn-default">Добавить
               еще лекцию
             </button>
             <button onClick={this.removeLectureField.bind(this)}
-              style={{marginRight: '15px'}}>Отменить добавление лекции
+                    style={{marginRight: '15px'}}
+                    class="btn btn-warning">Отменить добавление лекции
             </button>
-            <input type="button" onClick={this.submitHandler.bind(this)}
+            <input type="button"
+                   class="btn btn-danger"
+                   onClick={this.submitHandler.bind(this)}
                    value="Создать предмет"/>
           </form>
         </div>

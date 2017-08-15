@@ -19,7 +19,6 @@ export default class Question extends React.Component {
   }
 
   render() {
-
     let inputAnswer = [];
     for (let i = 0; i < this.state.answersCount; i++) {
       inputAnswer.push(<InputAnswer name={this.props.name} key={i}/>);
@@ -29,9 +28,16 @@ export default class Question extends React.Component {
         <div>
             <textarea class="form-control"
                       style={{minWidth: '100%', maxWidth: '100%'}}
-                      name="questionText" placeholder="Текст вопроса"></textarea>
-            {inputAnswer}
-            <button onClick={this.appendAnswerField.bind(this)}>Добавить еще ответ</button>
+                      name="questionText"
+                      placeholder="Текст вопроса"></textarea>
+          <p>
+            <input type="file" name='{props.name}'
+                   style={{display: 'inline', marginRight: '10px'}}/>
+          </p>
+          {inputAnswer}
+          <button class="btn btn-default" onClick={this.appendAnswerField.bind(this)}>Добавить еще
+            ответ
+          </button>
           <hr/>
         </div>
     );

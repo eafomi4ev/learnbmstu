@@ -11,62 +11,47 @@ import { browserHistory } from 'react-router';
     user: store.user.user,
     test: store.test.test,
     testing: store.testing.testing,
+    subjects: store.subjects.subjects,
+    choosenSubject: store.subjects.choosenSubject,
   }
 })
 @autobind()
 export default class SubjectChoice extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      subjects: [],
-      chosenSubject: '',
-    };
-  }
-
-  setSubjectsToState() {
-    axios.get('/subjects/withlectures').then((response) => {
-      let subjects = [];
-      for (let subject in response.data) {
-        subjects.push(response.data[+subject]);
-      }
-      this.setState({
-        subjects: subjects,
-      });
-    });
   }
 
   handleChange(event) {
-    console.log('target', event.target.value);
-    this.setState({
-      chosenSubject: event.target.value,
-    });
+    let toDispatch = actions.subjects.choose(event.target.value);
+    this.props.dispatch(toDispatch);
   }
 
-  componentWillMount() {
-    console.log('a');
-    this.setSubjectsToState();
-  }
+
 
   handleClick(event) {
     // запрос на выдачу теста и помещение в стор
     event.preventDefault();
-    let subjectId = this.state.chosenSubject;
+    let subjectId = this.props.choosenSubject;
     let p = actions.test.getTest(subjectId);
     this.props.dispatch(p);
     // запрос на создание тестирования и помещение в стор
-    browserHistory.push('/tests/start/'+subjectId);
     // переход на страницу отображение теста
   }
 
+  componentWillMount() {
+    let action = actions.subjects.unChoose();
+    this.props.dispatch(action);
+  }
+
   render() {
-    let selectorItems = this.state.subjects.map((subject, i) => {
+    let selectorItems = this.props.subjects.map((subject, i) => {
       return <option value={subject.subject_id} key={i}>{subject.subject_name}</option>;
     });
 
     return (
         <div>
           <p>
-            <select size="1" onChange={this.handleChange.bind(this)}>
+            <select size="1" onChange={this.handleChange}>
               <option selected disabled key={-1}>Выберите предмет</option>
               {selectorItems}
             </select>
@@ -79,7 +64,7 @@ export default class SubjectChoice extends React.Component {
             </select>
           </p>
 
-          <Link onClick={this.handleClick}>GO!</Link>
+          <button onClick={this.handleClick}>Начать тестирование</button>
         </div>
     );
   }

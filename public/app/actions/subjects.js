@@ -8,3 +8,16 @@ export function getSubjects() {
     payload: axios.get(config.baseUrl + '/subjects/withlectures'),
   };
 }
+
+export function choose(value) {
+  return {
+    type: consts.CHOOSE_SUBJECT,
+    payload: value,
+  };
+}
+
+export function unChoose() {
+  return {
+    type: consts.UNCHOOSE_SUBJECT,
+  };
+}

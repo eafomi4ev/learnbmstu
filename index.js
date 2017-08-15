@@ -17,6 +17,7 @@ const users = require('./routers/users');
 const tests = require('./routers/tests');
 
 app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'public', 'img')));
 
 app.use(function(req, res, next) { // middleware для настроки CORS запросов
   res.header('Access-Control-Allow-Origin', '*');
@@ -38,6 +39,7 @@ app.use(session({
 app.use(bodyParser.urlencoded({extended: true}));
 // use statinc должен идти после кода app.get('/', ...)
 app.use('/pdf/public', express.static(path.join(__dirname, 'public')));
+app.use('/pdf/reports', express.static(path.join(__dirname, 'reports')));
 // app.use('/pdf', lectures);
 
 // app.use('/', index);

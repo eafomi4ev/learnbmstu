@@ -1,4 +1,10 @@
 'use strict';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap-theme.css';
+
+import 'font-awesome/css/font-awesome.css';
+import 'script-loader!jquery';
+import 'script-loader!bootstrap/dist/js/bootstrap.js';
 
 import {
   Router,
@@ -22,6 +28,10 @@ import SubjectChoice from './components/testing/SubjectChoice';
 import store from './stores/store';
 import HomePage from './components/home/HomePage';
 import TestingQuestion from './components/testing/TestingQuestion';
+import Report from './components/testing/Report';
+import HomePageContent from './components/home/HomePageContent';
+
+
 
 const Editor = Authorization(['editor']);
 // <Route path="/auth" components={Editor(LoginPage)}/>
@@ -31,11 +41,13 @@ ReactDOM.render(
       <Router history={browserHistory}>
 
         <Route path="/" component={HomePage}>
+          <IndexRoute component={HomePageContent} />
           <Route path='/subject/:subjectId/lecture/:lectureId' component={Lecture}/>
           <Route path="/subjects/create" component={CreateSubject}/>
           <Route path="/tests/create" component={CreateTest}/>
           <Route path="/tests/choice" component={SubjectChoice}/>
           <Route path="/tests/start/:subjectId" component={TestingQuestion}/>
+          <Route path="/tests/reportpdf/:id" component={Report}/>
         </Route>
 
         <Route path="/login" component={LoginPage}/>
