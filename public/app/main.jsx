@@ -16,6 +16,7 @@ import {
 // import {CookiesProvider} from 'react-cookie';
 import {Provider} from 'react-redux';
 
+import React from 'react';
 import Header from './components/header/Header';
 import SubjectsList from './components/sidebar/SubjectsList';
 import LoginPage from './components/login/LoginPage';
@@ -32,27 +33,26 @@ import Report from './components/testing/Report';
 import HomePageContent from './components/home/HomePageContent';
 
 
-
 const Editor = Authorization(['editor']);
 // <Route path="/auth" components={Editor(LoginPage)}/>
 
 ReactDOM.render(
-    <Provider store={store}>
-      <Router history={browserHistory}>
+  <Provider store={store}>
+    <Router history={browserHistory}>
 
-        <Route path="/" component={HomePage}>
-          <IndexRoute component={HomePageContent} />
-          <Route path='/subject/:subjectId/lecture/:lectureId' component={Lecture}/>
-          <Route path="/subjects/create" component={CreateSubject}/>
-          <Route path="/tests/create" component={CreateTest}/>
-          <Route path="/tests/choice" component={SubjectChoice}/>
-          <Route path="/tests/start/:subjectId" component={TestingQuestion}/>
-          <Route path="/tests/reportpdf/:id" component={Report}/>
-        </Route>
+      <Route path="/" component={HomePage}>
+        <IndexRoute component={HomePageContent}/>
+        <Route path='/subject/:subjectId/lecture/:lectureId' component={Lecture}/>
+        <Route path="/subjects/create" component={CreateSubject}/>
+        <Route path="/tests/create" component={CreateTest}/>
+        <Route path="/tests/choice" component={SubjectChoice}/>
+        <Route path="/tests/start/:subjectId" component={TestingQuestion}/>
+        <Route path="/tests/reportpdf/:id" component={Report}/>
+      </Route>
 
-        <Route path="/login" component={LoginPage}/>
-        <Route path="/register" component={RegisterPage}/>
+      <Route path="/login" component={LoginPage}/>
+      <Route path="/register" component={RegisterPage}/>
 
-      </Router>
-    </Provider>,
-    document.getElementById('root'));
+    </Router>
+  </Provider>,
+  document.getElementById('root'));

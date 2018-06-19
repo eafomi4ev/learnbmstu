@@ -6,8 +6,15 @@ module.exports = {
   lecturesRoot: `${process.cwd()}/public/lectures`,
   limitFileSize: 10e6,
   db: {
-    connection: 'postgres://localhost:5432/',
-    name: 'newtesting',
+    server: 'postgres',
+    userName: 'egor',
+    password: 'egor',
+    host: 'localhost',
+    port: '5432',
+    dbName: 'meclever',
+    get connectionString() {
+      return `${this.server}://${this.userName}:${this.password}@${this.host}:${this.port}/${this.dbName}`;
+    },
     options: {
       // Initialization Options
       promiseLib: promise,
@@ -15,3 +22,4 @@ module.exports = {
   },
   serverURL: 'http://localhost:3000',
 };
+debugger;

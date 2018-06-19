@@ -1,11 +1,12 @@
 import {connect} from 'react-redux';
 import {autobind} from 'core-decorators';
+import React from "react";
 
 const Authorization = (allowedRoles) => (WrappedComponent) => {
   @connect((store) => {
     return {
       user: store.user.user,
-    }
+    };
   })
   @autobind()
   class WithAuthorization extends React.Component {

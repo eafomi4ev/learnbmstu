@@ -1,13 +1,11 @@
 import {Link} from 'react-router';
 
-{/*<li class='divider'></li>*/}
-
 const headerLogin = (props) => {
  return(
      <li class="dropdown">
        <a href="" class="dropdown-toggle"
-          data-toggle="dropdown">Профиль <b
-           class="caret"></b></a>
+          data-toggle="dropdown">Профиль
+       </a>
        {!props.user ?
        <ul class="dropdown-menu">
          <li><Link to='/login'>Login</Link></li>
